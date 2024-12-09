@@ -44,13 +44,11 @@ El curso combina teoría y práctica, incentivando la aplicación de los concept
 
 ## Evaluación
 
-La nota final (\(NF\)) de la asignatura será calculada de la siguiente manera:
+La nota final ($NF$) de la asignatura será calculada de la siguiente manera:
 
-\[
-NF = 0.4 \times \overline{Q} + 0.6 \times P
-\]
+$$NF = 0.4 \times \overline{Q} + 0.6 \times P$$
 
-donde \(\overline{Q}\) es el promedio de quizzes y \(P\) un proyecto final del curso.
+donde $\overline{Q}$ es el promedio de quizzes y $P$ un proyecto final del curso.
 
 ## Herramientas y recursos
 
