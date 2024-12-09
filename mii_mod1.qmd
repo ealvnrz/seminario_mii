@@ -1,5 +1,5 @@
 ---
-title: A title
+title: Módulo 1
 subtitle: A subtitle
 format:
   clean-revealjs:
@@ -13,8 +13,7 @@ author:
     email: eloy.alvarado@usm.cl
     affiliations: Universidad Técnica Federico Santa María
   - name: Esteban Salgado Valenzuela
-    orcid: 0000-0001-7577-2775
-    email: esteban.salgadov@usm.cl
+    orcid: 0000-0002-7799-0044
     affiliations: Universidad Técnica Federico Santa María
 date: 12/13/2024
 lang: es
@@ -24,19 +23,6 @@ bibliography: refs.bib
 
 ## Example slide
 
-### This is a subtitle
-
-Here we have some text that may run over several lines of the slide frame,
-depending on how long it is.
-
-- first item 
-    - A sub item
-
-Next, we'll brief review some theme-specific components.
-
-- Note that _all_ of the standard Reveal.js
-[features](https://quarto.org/docs/presentations/revealjs/)
-can be used with this theme, even if we don't highlight them here.
 
 ## Additional theme classes
 
