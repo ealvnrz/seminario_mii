@@ -63,7 +63,8 @@ Default.head(3)
 Supongamos que la clasificación de [mora]{.bg4} la codificamos como:
 
 $$Y= \begin{cases} 0 \quad \text{si} \quad \texttt{default=No} \\
-1 \quad \text{si} \quad \texttt{default=Yes} \end{cases}$$
+1 \quad \text{si} \quad \texttt{default=Yes} \end{cases}
+$$
 
 ::: {.box3}
 ¿Podríamos realizar una regresión lineal de $Y$ respecto de $X$ y clasificar como [$\texttt{Yes}$]{.bg3} si $\widehat{Y}>0.5$?
@@ -89,7 +90,7 @@ se podría pensar que la regresión es un modelo ideal para este tipo de tareas.
 
 Por simplicidad escribamos $p(X)=\mathbb{P}(Y=1 | X)$ y consideremos la variable [`balance`]{.bg3} para predecir si hubo [mora (`default`)]{.bg4}. El modelo de regresión tiene por forma:
 
-$$p(X)=\dfrac{e^{\beta_0 + \beta_1 X}}{1+e^{\beta_0 + \beta_1 X}}$$
+$$p(X)=\dfrac{\exp(\beta_0 + \beta_1 X)}{1+\exp(\beta_0 + \beta_1 X)}$$
 
 Es claro ver, que independiente de los valores de $\beta_0,\beta_1$ o $X$, [$p(X)$ tomará valores en el intervalo $[0,1]$]{.bg1}. La expresión anterior la podemos reordenar como:
 
@@ -150,3 +151,225 @@ $$
 $$
 \hat{p}(X)=\dfrac{\exp(-10.6513+ 0.0055 \times 2000)}{1+\exp(-10.6513+ 0.0055 \times 2000)}\approx 0.586
 $$
+
+## Mora de estudiantes
+
+### ¿Qué resultados obtenemos si el predictor es `student`?
+
+
+```{python}
+#| echo: true
+Default['student'] = Default['student'].map({'No': 0, 'Yes': 1})
+X = Default[['student']]
+X = sm.add_constant(X)  
+y = Default['default']
+model = sm.Logit(y, X)
+result = model.fit()
+```
+
+## Mora de estudiantes{.small}
+
+```{python}
+#| echo: true
+print(result.summary())
+```
+
+$$
+\mathbb{P}\left( \text{default=Yes }| \text{ student=Yes}\right)=\dfrac{\exp(-3.5041+ 0.4049 \times 1)}{1+\exp(-3.5041+ 0.4049 \times 1)}\approx 0.0431
+$$
+
+$$
+\mathbb{P}\left( \text{default=Yes }| \text{ student=No}\right)=\dfrac{\exp(-3.5041+ 0.4049 \times 0)}{1+\exp(-3.5041+ 0.4049 \times 0)}\approx 0.0292
+$$
+
+## Regresión logística múltiple
+
+Ahora consideremos el problema de [predecir una respuesta binaria usando múltiples predictores]{.bg3}. La extensión natural del modelo de regresión es
+
+$$
+\log \left(\dfrac{p(X)}{1-p(X)}\right)=\beta_0 + \beta_1 X_1 +\dots + \beta_p X_p
+$$
+
+donde $X=(X_1,\dots,X_p)$ son $p$ predictores. La ecuación anterior la podemos reescribir como
+
+$$
+p(X)=\dfrac{\exp(\beta_0 + \beta_1 X_1 +\dots + \beta_p X_p)}{1+ \exp(\beta_0 + \beta_1 X_1 +\dots + \beta_p X_p)}
+$$
+
+## Regresión logística múltiple
+
+
+```{python}
+#| echo: true
+X = Default[['student', 'balance', 'income']]
+X = sm.add_constant(X)
+y = Default['default']
+model = sm.Logit(y, X)
+result = model.fit()
+print(result.summary())
+```
+
+
+# Análisis discriminante {background-color="#40666e"}
+## Introducción
+
+La regresión logística involucra [modelar directamente]{.bg4} $\mathbb{P}\left( Y=k|X=x\right)$ usando la función logística dada por
+
+$$
+p(X)=\dfrac{\exp(\beta_0 + \beta_1 X_1 +\dots + \beta_p X_p)}{1+ \exp(\beta_0 + \beta_1 X_1 +\dots + \beta_p X_p)}
+$$
+
+para el caso de [dos clases en la variable respuesta]{.bg3}. En lo que sigue, consideramos una manera alternativa y menos directa para estimar estas probabilidades.
+
+## Análisis discriminante lineal
+
+En esta metodología, [modelamos la distribución de los predictores]{.bg1} $X$ por separado en cada una de las categorías de la variable respuesta $(Y)$, y luego usamos el [teorema de Bayes]{.bg2} para convertir estos resultados en estimaciones de $\mathbb{P}\left(Y=k|X=x\right)$.
+
+::: {.box3}
+[Teorema de Bayes]{.bg4}
+$$\mathbb{P}(Y=k|X=x)=\dfrac{\mathbb{P}(X=x|Y=k)\times \mathbb{P}(Y=k)}{\mathbb{P}(X=x)}
+$$
+:::
+
+## Análisis discriminante lineal
+
+Para las metodologías de análisis discriminante, reescribimos el [Teorema de Bayes]{.fg1} como:
+
+$$\mathbb{P}(Y=k|X=x)=\dfrac{\pi_k f_k(x)}{\sum_{l=1}^{K}\pi_l f_l(x)},$$
+
+donde:
+
+- $f_k(x)=\mathbb{P}(X=x|Y=k)$ es la [densidad]{.bg3} para $X$ en la clase $k$.
+
+- $\pi_k = \mathbb{P}(Y=k)$ es la [probabilidad marginal o *apriori*]{.bg4} para la clase $k$.
+
+## Análisis discriminante lineal
+
+- La idea general, es [no estimar $p_k(X)$ directamente]{.bg3}, sino estimar $\pi_k$ y $f_k$ para obtener lo deseado.
+
+- Usualmente [$\pi_k$ es fácil de obtener]{.bg4} si se tiene una muestra aleatoria de $Y$, pues obtenemos estas estimaciones como las proporciones de cada clase.
+
+- Estimar [$f_k(X)$ tiende a ser más difícil]{.bg1}, a menos que se asuman formas simples para las densidades.
+
+## Análisis discriminante lineal con $p=1$
+
+Primero asumiremos que $p=1$, es decir, [sólo tenemos un predictor]{.bg2}. Deseamos obtener una estimación para $f_k(x)$ para utilizarlo en la ecuación
+
+$$
+\mathbb{P}(Y=k|X=x)=\dfrac{\pi_k f_k(x)}{\sum_{l=1}^{K} \pi_l f_l(x)}
+$$
+
+y así poder estimar $p_k(x)$. Para poder estimar $f_k$ [asumiremos que es *Gaussiana*]{.bg1}. Por lo que,
+
+$$
+f_k(x)=\dfrac{1}{\sqrt{2\pi}\sigma_k}\exp\left( -\dfrac{1}{2\sigma_{k}^{2}}(x-\mu_k)^2\right)
+$$
+
+donde $\mu_k$ y $\sigma_{k}^{2}$ son la media y la varianza de la clase $k-$ésima. Por ahora, asumiremos que $\sigma_{1}^{2}=\dots=\sigma_{K}^{2}=\sigma^2$
+
+## Análisis discriminante lineal con $p=1$
+
+Por lo anterior, se tendrá
+
+$$
+\mathbb{P}(Y=k|X) = p_k(x)=\dfrac{\pi_k \dfrac{1}{\sqrt{2\pi}\sigma}\exp\left( -\dfrac{1}{2\sigma^{2}}(x-\mu_k)^2\right)}{\sum_{l=1}^{K}\pi_l\dfrac{1}{\sqrt{2\pi}\sigma}\exp\left( -\dfrac{1}{2\sigma^{2}}(x-\mu_l)^2\right) }
+$$
+
+::: {.box3}
+El clasificador Bayesiano [asigna una observacion $X=x$ a la clase que su $p_k(x)$ es más grande]{.bg3}. Si arreglamos términos en la expresión anterior, se tiene que el proceso es equivalente a asignar la observación a la clase en la que
+
+$$
+\delta_k(x)=x \dfrac{\mu_k}{\sigma^2}-\dfrac{\mu_{k}^{2}}{2\sigma^2}+\log \pi_k
+$$
+
+es más grande.
+:::
+
+## Análisis discriminante lineal con $p=1$
+
+Por ejemplo, si $K=2$ Y $\pi_1=\pi_2$, entonces el [clasificador Bayesiano]{.bg3} asigna una observación a la clase 1 si: 
+$$2x(\mu_1-\mu_2)>\mu_{1}^{2}-\mu_{2}^{2},$$
+
+y a la clase 2 en caso contrario. En este caso, el [límite de decisión de Bayes (*Bayes decision boundary*)]{.fg1} corresponde al punto donde
+
+$$
+x=\dfrac{\mu_{1}^{2}-\mu_{2}^{2}}{2(\mu_1-\mu_2)}=\dfrac{\mu_1+\mu_2}{2}
+$$
+
+Llamamos a este, el punto (o área) en donde [la clasificación es ambigua]{.bg2}.
+
+
+<center>
+![](./images/mod3/4_4.png)
+</center>
+
+## Análisis discriminante lineal con $p=1$
+
+El [análisis discriminante lineal (LDA)]{.bg1} aproxima el [clasificador bayesiano]{.bg4} ingresando las siguientes estimaciones:
+
+$$
+\hat{\pi}_k = \dfrac{n_k}{n}
+$$
+
+$$
+\hat{\mu}_k=\dfrac{1}{n_k}\sum_{i:y_i=k}x_i
+$$
+
+$$
+\hat{\sigma}^{2}=\dfrac{1}{n-K}\sum_{k=1}^{K}\sum_{i:y_i=K}(x_i-\hat{\mu}_k)^2
+$$
+
+donde [$n$ es el número total de observaciones]{.bg2} en el conjunto de entrenamiento, [$n_k$ es el número de observaciones]{.bg3} en el conjunto de entrenamiento en la [clase $k-$ésima]{.bg3}.
+
+## Análisis discriminante lineal con $p>1$
+
+<center>
+![](./images/mod3/4_5.png)
+</center>
+
+- [Densidad:]{.bg3} $f(x) = \frac{1}{(2\pi)^{p/2} |\Sigma|^{1/2}} e^{-\frac{1}{2} (x - \mu)^T \Sigma^{-1} (x - \mu)}$
+
+- [Función discriminante:]{.bg4} $\delta_k(x) = x^T \Sigma^{-1} \mu_k - \frac{1}{2} \mu_k^T \Sigma^{-1} \mu_k + \log \pi_k$
+
+
+## Análisis discriminante lineal con $p>1$
+
+<center>
+![](./images/mod3/4_6.png)
+</center>
+
+## Otras formas de análisis discriminante
+
+$$
+\mathbb{P}(Y=k|X=x)=\dfrac{\pi_k f_k(x)}{\sum_{l=1}^{K} \pi_l f_l(x)}
+$$
+
+Cuando $f_k(x)$ son [distribuciones Gaussianas]{.bg1}, con la misma matriz de covarianza en cada clase, obtenemos el [Análisis Discriminante Lineal (LDA)]{.bg4}. Si alteramos la forma de $f_k(x)$, obtendremos diferentes clasificadores:
+
+- Con distribuciones Gaussianas pero diferentes $\Sigma_k$ en cada clase, obtendremos el [Análisis Discriminante Cuadrático (QDA)]{.bg3}
+
+- Con $f_k(x)=\prod_{j=1}^{p} f_{jk}(x_j)$ en cada clase obtendremos [Naive Bayes]{.bg3}
+
+- Muchas otras formas se pueden obtener al proponer modelos de densidad para $f_k(x)$.
+
+## Análisis discriminante cuadrático
+
+<center>
+![](./images/mod3/4_9.png)
+</center>
+
+$$
+\delta_k(x) = -\frac{1}{2} (x - \mu_k)^T \Sigma_k^{-1} (x - \mu_k) + \log \pi_k - \frac{1}{2} \log |\Sigma_k|
+$$
+
+Debido a que $\mathbf{\Sigma_k}$ son diferentes, el término al cuadrado importa.
+
+## Naive Bayes
+
+- Asume que los predictores ($X$) son [independientes en cada clase]{.bg1}.
+
+- [Útil cuando $p$ es grande]{.bg3}, ya que los métodos multivariados como LDA o QDA son ineficientes.
+
+- Acepta predictores [cualitativos y cuantitativos]{.bg2}.
+
+- A pesar de tener muchos supuestos, [Naive Bayes usualmente entrega buenas clasificaciones]{.bg4}.
