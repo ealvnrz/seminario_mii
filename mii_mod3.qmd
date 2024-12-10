@@ -1,6 +1,6 @@
 ---
-title: Módulo 1
-subtitle: A subtitle
+title: Módulo 3
+subtitle: Técnicas de Clasificación
 format:
   clean-revealjs:
     self-contained: true
@@ -21,59 +21,132 @@ logo: images/logo_usm.png
 bibliography: refs.bib
 ---
 
-## Example slide
+# Técnicas de clasificación {background-color="#40666e"}
 
+## Introducción
 
-## Additional theme classes
+Como fue expuesto en el módulo anterior, los modelos de regresión lineal asumen que la variable respuesta $Y$ es [cuantitativa]{.bg3}. Sin embargo, en muchas situaciones prácticas, la variable en estudio es de tipo [cualitativa]{.bg1} (también referida como categórica).
 
-### Some extra things you can do with the clean theme
+[Ejemplos:]{.bg4}
 
-Special classes for emphasis
+1. Una persona llega a la sala de emergencias con un conjunto de síntomas que podrían atribuirse a una de tres condiciones médicas. [¿Cuál de las tres condiciones tiene el individuo?]{.bg2}
 
-- `.alert` class for default emphasis, e.g. [important note]{.alert}.
-- `.fg` class for custom colour, e.g. [important note]{.fg style="--col: #e64173"}.
-- `.bg` class for custom background, e.g. [important note]{.box1}.
+2. Un servicio de banca en línea debe ser capaz de [determinar si una transacción realizada en el sitio es fraudulenta]{.bg2}, en función de la dirección IP del usuario, el historial de transacciones anteriores, entre otros factores.  
 
-Cross-references
+## Introducción
 
-- `.button` class provides a Beamer-like button, e.g.
-[[Summary]{.button}](#sec-summary)
+Al igual que en las regresiones, en el contexto de [clasificación]{.bg1} tenemos un conjunto de observaciones de entrenamiento:
+$$(x_1, y_1), \dots, (x_n, y_n),$$
 
-## Want more?
+que podemos usar para construir un [clasificador]{.bg3}. Queremos que nuestro clasificador tenga un [buen desempeño]{.bg4} no sólo en los datos de entrenamiento, sino también en observaciones de prueba que no se utilizaron para entrenar el clasificador.
 
-### See our longer demo slides
+## Ejemplo: Mora en Tarjeta de Crédito
 
-We've deliberarely kept this template lean, to get you up and running as fast as
-possible.
+::: {layout-ncol=2}
 
-We provide a separate
-[demo template](https://github.com/grantmcdermott/quarto-revealjs-clean-demo),
-with more examples for integrating code, tables, figures, etc.
+![](./images/mod3/4_1a.png)
 
-  - See the live demo slides
-  [here](https://grantmcdermott.com/quarto-revealjs-clean-demo/template.html).
+![](./images/mod3/4_1b.png)
 
-## Summary {#sec-summary}
+:::
 
-### A minimalist and elegant presentation theme
+## Ejemplo: Mora en Tarjeta de Crédito
+### ¿Podemos usar regresión lineal?
 
-The Quarto reveal.js clean theme aims to be a minimalist and elegant presention
-theme. Here are some options to get you started:
-
-Add the theme to an existing project.
-
-```{.bash}
-quarto install extension grantmcdermott/quarto-revealjs-clean
+```{python}
+from ISLP import load_data
+import pandas as pd
+Default = load_data('Default')
+Default.head(3)
 ```
 
-... or, create a new project using this slide deck as a lean template.
+Supongamos que la clasificación de [mora]{.bg4} la codificamos como:
 
-```{.bash}
-quarto use template grantmcdermott/quarto-revealjs-clean
+$$Y= \begin{cases} 0 \quad \text{si} \quad \texttt{default=No} \\
+1 \quad \text{si} \quad \texttt{default=Yes} \end{cases}$$
+
+::: {.box3}
+¿Podríamos realizar una regresión lineal de $Y$ respecto de $X$ y clasificar como [$\texttt{Yes}$]{.bg3} si $\widehat{Y}>0.5$?
+:::
+
+## Ejemplo: Mora en Tarjeta de Crédito
+### ¿Podemos usar regresión lineal?
+
+- En el caso de una [respuesta binaria]{.bg1}, la regresión lineal es un [buen clasificador]{.bg3}, y es equivalente a realizar un [análisis discriminante lineal]{.bg4}
+
+- Debido a que en la población (de datos), $$\mathbb{E}(Y| X = x)= \mathbb{P}(Y=1 | X=x),$$
+se podría pensar que la regresión es un modelo ideal para este tipo de tareas.
+
+- Sin embargo, la [regresión lineal]{.bg2} podría producir probabilidades fuera del rango $[0,1]$. Así, la [regresión logística]{.bg4} es un modelo más apropiado.
+
+## Ejemplo: Mora en Tarjeta de Crédito
+### Regresión lineal vs Regresión logística
+<center>
+![](./images/mod3/4_2.png)
+</center>
+
+## Regresión logística
+
+Por simplicidad escribamos $p(X)=\mathbb{P}(Y=1 | X)$ y consideremos la variable [`balance`]{.bg3} para predecir si hubo [mora (`default`)]{.bg4}. El modelo de regresión tiene por forma:
+
+$$p(X)=\dfrac{e^{\beta_0 + \beta_1 X}}{1+e^{\beta_0 + \beta_1 X}}$$
+
+Es claro ver, que independiente de los valores de $\beta_0,\beta_1$ o $X$, [$p(X)$ tomará valores en el intervalo $[0,1]$]{.bg1}. La expresión anterior la podemos reordenar como:
+
+$$\ln\left( \dfrac{p(X)}{1-p(X)}\right)=\beta_0 + \beta_1 X$$
+
+## Estimación de los coeficientes de regresión
+
+Los coeficiente $\beta_0$ y $\beta_1$ en la ecuación
+
+$$
+p(X)=\dfrac{\exp(\beta_0 + \beta_1 X)}{1+\exp(\beta_0 + \beta_1 X)}
+$$
+
+[son desconocidos]{.bg4}, por lo que [deben ser estimados basándose en los datos de entrenamiento]{.bg3}.
+
+Usualmente la metodología de [máxima verosimilitud]{.bg1} es preferida para el proceso de estimación, debido a que tiene buenas propiedades estadísticas.
+
+## Estimación de los coeficientes de regresión: continuación
+
+Formalmente, definimos la [función de verosimilitud]{.bg3} como:
+
+$$
+\ell(\beta_0,\beta_1)=\prod_{i:y_i=1}p(x_i)\prod_{i':y_{i'}=0}(1-p(x_{i'}))
+$$
+
+Las estimaciones $\hat{\beta}_0$ y $\hat{\beta}_1$ son escogidos para [maximizar la función de verosimilitud]{.bg4}.
+
+## Regresión logística en `python`
+
+```{python}
+#| echo: true
+import statsmodels.api as sm
+Default['default'] = Default['default'].map({'No': 0, 'Yes': 1})
+X = Default[['balance']]
+X = sm.add_constant(X)  
+y = Default['default']
+model = sm.Logit(y, X)
+result = model.fit()
+```
+## Regresión logística en `python`
+
+```{python}
+#| echo: true
+print(result.summary())
 ```
 
-... or, create a new project using the demo slide deck as a full template.
 
-```{.bash}
-quarto use template grantmcdermott/quarto-revealjs-clean-demo
-```
+## Predicciones
+
+¿Cuál es la probabilidad de [mora (`default`)]{.bg4} para alguien que tiene un [`balance`]{.bg3} de [$1000]{.fg1}?
+
+$$
+\hat{p}(X)=\dfrac{\exp(-10.6513+ 0.0055 \times 1000)}{1+\exp(-10.6513+ 0.0055 \times 1000)}\approx 0.006
+$$
+
+¿Cuál es la probabilidad de [mora (`default`)]{.bg4} para alguien que tiene un [`balance`]{.bg3} de [$2000]{.fg1}?
+
+$$
+\hat{p}(X)=\dfrac{\exp(-10.6513+ 0.0055 \times 2000)}{1+\exp(-10.6513+ 0.0055 \times 2000)}\approx 0.586
+$$

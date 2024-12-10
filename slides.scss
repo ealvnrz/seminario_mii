@@ -10,6 +10,11 @@ $body-bg: #ffffff;
 $body-color: #222;
 $link-color: #1e549f;
 
+
+@mixin customTextStyle($color) {
+  color: $color;
+}
+
 /*-- scss:rules --*/
 
 details>summary {
@@ -42,4 +47,36 @@ details>summary {
   margin-bottom: 0.5em;
   padding: 0.5em;
   background: #EBF7FF;
+}
+
+.fg1 {
+  @include customTextStyle(#e64173);
+}
+
+.bg1 {
+  background-color: #e64173; /* Background color */
+  color: black; /* Text color */
+  padding: 0 5px; /* Optional: Add padding for better visibility */
+  display: inline; /* Make it inline to apply only to text */
+}
+
+.bg2 {
+  background-color: #399ba3; /* Background color */
+  color: black; /* Text color */
+  padding: 0 5px; /* Optional: Add padding for better visibility */
+  display: inline; /* Make it inline to apply only to text */
+}
+
+.bg3 {
+  background-color: #f4c430; /* Background color: a sandy gold */
+  color: black; /* Text color */
+  padding: 0 5px; /* Optional: Add padding for better visibility */
+  display: inline; /* Make it inline to apply only to text */
+}
+
+.bg4 {
+  background-color: #a7c7e7; /* Background color: light blue */
+  color: black; /* Text color */
+  padding: 0 5px; /* Optional: Add padding for better visibility */
+  display: inline; /* Make it inline to apply only to text */
 }
