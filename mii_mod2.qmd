@@ -103,21 +103,20 @@ $$t = \dfrac{\hat{\beta_1}-0}{SE(\hat{\beta_1})} \sim t-\text{Student}(n-2)$$
 | Intercepto | 7.0325   | 0.4578 |   15.36 | < 0.0001 |
 | TV | 0.0475   | 0.0027 | 17.67 | < 0.0001 |
 
-- Para tener un p-value bajo $0.05$ se requiere un t-stadistic de 2.
+- Para tener un p-value bajo $0.05$ se requiere un t-stadistic de, al menos, 2.
 - La probabilidad de ver este resultado bajo la hipótesis nula es $<0.0001$.
 - Se rechaza la hipótesis nula, i.e. $\beta_1\neq0$.
 
 ## Regresión lineal simple
 ### Precisión del modelo
 
-- [Error estándar residual:]{.bg4}
+- [Error estándar residual:]{.bg4} estimado de la desviación estándar de $\varepsilon$.
 
 $$RSE = \sqrt{\frac{1}{n-2}RSS} = \sqrt{\frac{1}{n-2}\sum\limits_{i=1}^n(y_i-\hat{y_i})^2}$$
 
-- [$R^2$]{.bg3} fracción de la varianza explicada es:
+- [$R^2$:]{.bg3} proporción de la variabilidad en $Y$ que puede ser explicada usando $X$.
 
-$$R^2 = 1 - \dfrac{RSS}{TSS},$$
-
+$$R^2 = 1 - \dfrac{RSS}{TSS} \stackrel{!}{=} \hat{Cor}(X,Y) ,$$
 con $TSS = \sum\limits_{i=1}^n(y_i-\bar{y})^2$.
 
 ## Regresión lineal simple
@@ -128,7 +127,7 @@ con $TSS = \sum\limits_{i=1}^n(y_i-\bar{y})^2$.
 | RSE | 3.26|
 |$R^2$  | 0.612|
 
-- Usando el presupuesto para `TV` la varianza en ventas se reduce en un $61\%$.
+- El $61\%$ de la variabilidad en `ventas` se explica por una regresión lineal con `TV`.
 
 
 
@@ -170,6 +169,52 @@ $$RSS = e_1^2+\cdots+e_n^2,$$
 con $e_i =  y_i-\hat{\beta_0}-\hat{\beta_1}x_{i1} - \cdots - \hat{\beta_p}x_{ip}$
 
 - Se puede resolver analíticamente, pero computacionalmente se resuelve rápidamente.
+- $\hat{\beta} = (X^\top{X})^{-1}X^\top{Y}$
+
+## Regresión lineal múltiple
+### Ejemplo de publicidad 
+
+| | Coeficiente | SE | t-stadistic | p-value |
+|:--|:--:|:--:|:--:|:--:|
+|Intercepto|2.939|0.3119|9.42|<0.0001|
+|TV| 0.046|0.0014|32.81|<0.0001|
+|radio|0.189|0.0086|21.89|<0.0001|
+|periódico|-0.001|0.0059|-0.18|0.8599|
+
+| | Coeficiente | SE | t-stadistic |p-value|
+|:---------:|:-----:|:------:|:------:|:------:|
+| Intercepto | 7.0325   | 0.4578 |   15.36 | < 0.0001 |
+| TV | 0.0475   | 0.0027 | 17.67 | < 0.0001 |
+
+## Regresión lineal múltiple
+### Ejemplo de publicidad 
+
+| | Coeficiente | SE | t-stadistic | p-value |
+|:--|:--:|:--:|:--:|:--:|
+|Intercepto|2.939|0.3119|9.42|<0.0001|
+|TV| 0.046|0.0014|32.81|<0.0001|
+|radio|0.189|0.0086|21.89|<0.0001|
+|periódico|-0.001|0.0059|-0.18|0.8599|
+
+| | Coeficiente | SE | t-stadistic |p-value|
+|:---------:|:-----:|:------:|:------:|:------:|
+| Intercepto | 9.312   | 0.563 |   16.54 | < 0.0001 |
+| radio | 0.203   | 0.020 | 9.92 | < 0.00115 |
+
+## Regresión lineal múltiple
+### Ejemplo de publicidad 
+
+| | Coeficiente | SE | t-stadistic | p-value |
+|:--|:--:|:--:|:--:|:--:|
+|Intercepto|2.939|0.3119|9.42|<0.0001|
+|TV| 0.046|0.0014|32.81|<0.0001|
+|radio|0.189|0.0086|21.89|<0.0001|
+|periódico|-0.001|0.0059|-0.18|0.8599|
+
+| | Coeficiente | SE | t-stadistic |p-value|
+|:---------:|:-----:|:------:|:------:|:------:|
+| Intercepto | 12.351   | 0.621 |   19.88 | < 0.0001 |
+| periódico | 0.055   | 0.017 | 3.30 | 0.00115 |
 
 ## Regresión lineal múltiple
 ### Ejemplo de publicidad 
@@ -186,8 +231,135 @@ con $e_i =  y_i-\hat{\beta_0}-\hat{\beta_1}x_{i1} - \cdots - \hat{\beta_p}x_{ip}
 | | TV | radio | periódico | ventas|
 |:--|:--:|:--:|:--:|:--:|
 |TV|1.0000|0.0548|0.0567|0.7822|
-|radio||1.0000|0.3541|0.5762|
+|radio||1.0000|[0.3541]{.alert}|0.5762|
 |periódico|||1.0000|0.2283|
 |ventas||||1.000|
 
+## Regresión lineal múltiple
+### Preguntas
+1. ¿Es alguno de los predictores $X_1,\ldots,X_p$ útil para predecir la respuesta?
+
+- $H_0:\,\beta_1=\cdots=\beta_p = 0$
+- $H_A:$ al menos uno de los $\beta_j\neq0$.
+- Calcular Estadístico F:
+  $$F = \dfrac{(TSS-RSS)/p}{RSS/(n-p-1)}$$
+- Bajo $H_0$ se espera que $F\approx1$, si no, se espera $F\gg1$.
+
+
+## Regresión lineal múltiple
+### Preguntas: Ejemplo publicidad
+1. ¿Es alguno de los predictores $X_1,\ldots,X_p$ útil para predecir la respuesta?
+
+En la regresión multilineal
+
+|Cantidad|Valor|
+|:--|:--:|
+|RSE|1.69|
+|$R^2$|0.897|
+|F-statistic|570|
+
+- [¿Qué tan grande $F$?]{.bg3} Depende, si errores son normales, sigue distribución $F$ (p-value).
+
+## Regresión lineal múltiple
+### Preguntas
+1. ¿Es alguno de los predictores $X_1,\ldots,X_p$ útil para predecir la respuesta?
+
+- ¿Y si queremos testear que algunos coeficientes específicos sean 0?
+
+- $H_0:\,\beta_{p-q+1} = \cdots = \beta_{p} = 0$,
+- Si $RSS_0$ es el RSS para el modelo sin esas variables:
+
+$$F = \dfrac{(RSS_0-RSS)/q}{RSS/(n-p-1)}$$
+
+- ¿Por qué no revisar solo los estadísticos individuales?
+
+## Regresión lineal múltiple
+### Preguntas
+2. ¿Todos los predictores ayudan a explicar $Y$, o solo un subconjunto es útil?
+
+- `Selección *forward*:` 
+  + Se comienza con un modelo sin predictores.
+  + Se ajustan $p$ regresiones lineales simples y se agrega al modelo la con menor RSS.
+  + Se repite hasta un criterio de parada.
+
+## Regresión lineal múltiple
+### Preguntas
+2. ¿Todos los predictores ayudan a explicar $Y$, o solo un subconjunto es útil?
+
+- `Selección *backward*:` 
+  + Se comienza con un modelo con todas las variables.
+  + Se remueve la de mayor p-value.
+  + Se repite hasta un criterio de parada.
+* No puede utilizarse si $p>n$.
+
+## Regresión lineal múltiple
+### Preguntas
+2. ¿Todos los predictores ayudan a explicar $Y$, o solo un subconjunto es útil?
+
+- `Selección mixta:` 
+  + Se comienza con un modelo sin predictores.
+  + Se agregan variables según la selección *forward*.
+  + Si alguna variable pasa a tener un p-value sobre una tolerancia, se remueve.
+
+## Regresión lineal múltiple
+### Preguntas
+3. ¿Qué tan bien se ajusta el modelo a los datos?
+
+- [Error estándar residual:]{.bg4}
+
+$$RSE = \sqrt{\dfrac{1}{n-p-1}RSS}$$
+
+  + RSS siempre disminuye en los datos de entrenamiento si aumentan los predictores.
+
+  + RSE podría aumentar ($p$ vs $RSS$).
+- $R^2 = Cor(Y,\hat{Y})^2$, correlación  entre la respuesta y el modelo lineal ajustado.
+
+## Regresión lineal múltiple
+### Predictores cualitativos
+
+- Si hay un predictor cualitativo de dos niveles (ej: sí o no) se crea la variable
+
+$$x_i = \begin{cases}1, \,\text{si para $i$ es sí}\\0, \,\text{si no,}\end{cases}$$
+
+- Esto se refleja en el modelo
+
+$$y_i = \beta_0+\beta_1x_1+\varepsilon_i = 
+\begin{cases}
+\beta_0 + \beta_1 + \varepsilon_i,\text{ si para $i$ es sí},\\
+\beta_0+\varepsilon_i,\text{ si no.}
+\end{cases}$$
+
+## Regresión lineal múltiple
+### Predictores cualitativos
+
+- Si hay un predictor cualitativo de más de dos niveles (ej: rojo, verde, azul) se crean dos variables
+
+$$x_{i1} = \begin{cases}1, \,\text{si para $i$ es rojo}\\0, \,\text{si no,}\end{cases}$$
+
+$$x_{i2} = \begin{cases}1, \,\text{si para $i$ es verde}\\0, \,\text{si no,}\end{cases}$$
+
+- Esto se refleja en el modelo
+
+$$y_i = \beta_0+\beta_1x_{i1} + \beta_2x_{i2}+\varepsilon_i = 
+\begin{cases}
+\beta_0 + \beta_1 + \varepsilon_i,\text{ si para $i$ es rojo},\\
+\beta_0 + \beta_2 + \varepsilon_i,\text{ si para $i$ es verde},\\
+\beta_0+\varepsilon_i,\text{ si para $i$ es azul.}
+\end{cases}$$
+
+
 # Regresión polinomial{background-color="#40666e"}
+
+## Regresión polinomial
+### Definición
+
+- El modelo de regresión polinomial es:
+
+$$y_i = \beta_0 + \beta_1x_i + \beta_2x_i^2+\cdots+\beta_dx_i^d+\varepsilon_i$$
+
+<center>
+![](./images/mod2/fig2.png){width=50%}
+</center>
+
+- Modelo es lineal en $\beta$.
+- Menor interpretabilidad de los coeficientes.

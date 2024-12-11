@@ -1,6 +1,6 @@
 ---
-title: Módulo 1
-subtitle: A subtitle
+title: Módulo 4
+subtitle: Métodos de remuestreo
 format:
   clean-revealjs:
     self-contained: true
@@ -21,59 +21,180 @@ logo: images/logo_usm.png
 bibliography: refs.bib
 ---
 
-## Example slide
+## Testear modelos
+- Hemos aprendido métodos de regresión y clasificación que nos permiten predecir información.
+
+- ¿Cómo los testeamos?
+
+  + Idealmente buscamos nuevos datos para corroborar, ¿y si no hay?
+  + Los datos de entrenamiento no nos sirven, *per se*.
+- Buscamos [remuestrear]{.bg4} con los datos que ya tenemos.
+  + Reajustar los modelos a muestras desde los datos de entrenamiento.
+  + Proveen estimaciones del error de predicción en los datos de prueba.
+
+## Error de entrenamiento y de prueba
+
+- `Error de prueba:` Error promedio al usar un método de aprendizaje estadístico para predecir la respuesta a una observación, que no estaba en los datos de entrenamiento.
+- `Error de entrenamiento:` Error al testear el modelo con los datos de entrenamiento.
+
+## Error de entrenamiento y de prueba
+
+![](./images/mod4/fig1.png)
+
+## Error de entrenamiento y de prueba
+
+- [Mejor solución:]{.bg4} Tener un conjunto grande de datos para testeo.
+  + Comunmente no disponible.
+- Vamos a ver dos métodos que estiman el error de prueba [apartando un subconjunto]{.bg3} de los datos de entrenamiento y luego aplicar el método de aprendizaje estadístico a esas observaciones.
+
+## Conjunto de validación
+
+- Se dividen aleatoriamente los datos disponibles en dos partes: un `conjunto de entrenamiento` y un `conjunto de validación`.
+- El error de validación resultante es una estimación del error de prueba (MSE o tasa de clasificación erronea).
+
+![](./images/mod4/fig2.png)
+
+## Conjunto de validación
+### Ejemplo
+
+- Comparar modelos polinomiales en una regresión lineal
+  + Se dividen 392 observaciones aleatoriamente en dos conjuintos de 196 datos.
+
+![](./images/mod4/fig3.png)
+
+# Validación cruzada{background-color="#40666e"}
+
+## Validación cruzada
+### Leave-One-Out Cross-Validation (LOOCV)
+
+![](./images/mod4/fig4.png)
+
+## Validación cruzada
+### Leave-One-Out Cross-Validation (LOOCV)
+
+- Se obtienen $n$ errores cuadráticos medios $MSE_i = (y_i-\hat{y}_i)^2$.
+- Se estima el MSE de prueba:
+
+$$CV_{(n)} = \dfrac1n\sum\limits_{i=1}^nMSE_i.$$
+
+  + Es menos sesgado (se repite considerando casi todos los datos).
+  + Tiende a sobreestimar el error menos que el método de validación.
+  + No hay aleatoriedad en la solección de conjuntos.
+
+## Validación cruzada
+### Leave-One-Out Cross-Validation (LOOCV)
+
+- Es más "costoso", puesto que se tiene que ajustar $n$ veces el modelo.
+
+- En regresión lineal o polinomial se tiene que 
+
+$$CV_{(n)} = \dfrac{1}{n}\sum\limits_{i=1}^n\left(\frac{y_i-\hat{y}_i}{1-h_i}\right)^2.$$
+
+  + $\hat{y}_i$ es la estimación del modelo completo.
+  + Apalancamiento $h_i = \frac{1}{n}+\frac{(x_i-\bar{x})^2}{\sum\limits_{j=1}^n(x_j-\bar{x})^2}$ representa la cantidad de influencia que tiene una observación sobre su ajuste.
+
+## Validación cruzada (Cross-Validation)
+### $k$-Fold Cross-Validation
+
+![](./images/mod4/fig5.png)
 
 
-## Additional theme classes
+## Validación cruzada (Cross-Validation)
+### $k$-Fold Cross-Validation
 
-### Some extra things you can do with the clean theme
+- Método ampliamente utilizado.
+- Se dividen los datos en $k$ conjuntos del [mismo tamaño $\frac{n_k}{k}$]{.alert}.
+- Se obtienen $k$ errores cuadráticos medios $MSE_i = \sum\limits_{j\in C_i}\frac{(y_j-\hat{y}_j)^2}{n_i}$ calculados cuando el subconjunto $i$ es usado para pruebas.
+  $$CV_{(k)} = \sum\limits_{i=1}^k\frac{n_i}{n}MSE_i.$$
 
-Special classes for emphasis
+- En la práctica $k=5$ o $k=10$.
+  + Costo computacional.
+  + Sesgo-Varianza.
 
-- `.alert` class for default emphasis, e.g. [important note]{.alert}.
-- `.fg` class for custom colour, e.g. [important note]{.fg style="--col: #e64173"}.
-- `.bg` class for custom background, e.g. [important note]{.box1}.
+## Validación cruzada (Cross-Validation)
+### $k$-Fold Cross-Validation
 
-Cross-references
+![](./images/mod4/fig6.png)
 
-- `.button` class provides a Beamer-like button, e.g.
-[[Summary]{.button}](#sec-summary)
+## Validación cruzada (Cross-Validation)
+### $k$-Fold Cross-Validation
 
-## Want more?
+- Para problemas de clasificación, CV funciona igual cambiando MSE por 
+$Err_i = I(y_i\neq\hat{y}_i)$.
 
-### See our longer demo slides
 
-We've deliberarely kept this template lean, to get you up and running as fast as
-possible.
+![](./images/mod4/fig7.png){fig-align="center"}
 
-We provide a separate
-[demo template](https://github.com/grantmcdermott/quarto-revealjs-clean-demo),
-with more examples for integrating code, tables, figures, etc.
 
-  - See the live demo slides
-  [here](https://grantmcdermott.com/quarto-revealjs-clean-demo/template.html).
+# Bootstrap{background-color="#40666e"}
 
-## Summary {#sec-summary}
+## Bootstrap
 
-### A minimalist and elegant presentation theme
+- Herramienta estadística flexible para cuantificar la incertidumbre asociada a un estimador o método de aprendizaje estadístico.
+  + Ej: estimar error estándar de un coeficiente o encontrar un intervalo de confianza.
 
-The Quarto reveal.js clean theme aims to be a minimalist and elegant presention
-theme. Here are some options to get you started:
+## Bootstrap
+### Ejemplo
 
-Add the theme to an existing project.
+- Queremos invertir una cantidad fija de dinero en dos activos financieros con retornos $X$ e $Y$ (aleatorios).
+- Una fracción $\alpha$ del dinero será invertida en $X$ y el resto ($1-\alpha$) en $Y$.
+- Queremos el $\alpha$ que minimice el riesgo total, i.e. 
+$$\min\limits_\alpha Var[\alpha X + (1-\alpha)Y]$$
+  + Teóricamente 
+    $$\alpha^\star = \dfrac{\sigma_Y^2-\sigma_{XY}}{\sigma_X^2+\sigma_Y^2-2\sigma_{XY}}$$
+  + Como son cantidades desconocidas, se estiman.
 
-```{.bash}
-quarto install extension grantmcdermott/quarto-revealjs-clean
-```
+## Bootstrap
+### Ejemplo
 
-... or, create a new project using this slide deck as a lean template.
+![](./images/mod4/fig8.png){fig-align="center"}
 
-```{.bash}
-quarto use template grantmcdermott/quarto-revealjs-clean
-```
+- Simulaciones  de a $100$ retornos ($\hat{\alpha}\in\{0.576,0.532,0.657,0.651\}$)
 
-... or, create a new project using the demo slide deck as a full template.
+## Bootstrap
+### Ejemplo
 
-```{.bash}
-quarto use template grantmcdermott/quarto-revealjs-clean-demo
-```
+- Para estimar la desviación estándar de $\hat{\alpha}$, se repite el proceso de simular de a $100$ observaciones y estimar $\alpha$ $1000$ veces.
+  + $\hat{\alpha}_1,\ldots,\hat{\alpha}_{1000}$.
+- En los datos simulados $\sigma_X^2 = 1,\,\sigma_Y^2=1.25,\,\sigma_{XY}=0.5$, por lo que $\alpha = 0.6$.
+- El promedio de las $1000$ estimaciones:
+  + $\bar{\alpha} = \frac{1}{1000}\sum\limits_{i=1}^{1000}\hat{\alpha}_i = 0.5996$
+- El estimado de la desviación estándar:
+  + $\sqrt{\frac{1}{1000-1}\sum\limits_{i=1}^{1000}(\hat{\alpha}_i-\bar{\alpha})^2} = 0.083 \approx SE(\hat{\alpha})$.
+
+## Bootstrap
+### Ejemplo
+
+![](./images/mod4/fig9.png)
+
+## Bootstrap
+
+- Con datos reales, no se pueden generar nuevas muestras desde la población original.
+- [Bootstrap]{.bg3} permite imitar el proceso de obtener nuevos conjuntos de datos, para estimar la variabilidad del estimador sin muestras adicionales.
+  + Se samplea repetidamente desde el conjunto de datos [con reemplazo]{.alert}.
+  + Cada `conjunto de datos de bootstrap` se crea sampleando [con reemplazo]{.alert} y es del [mismo tamaño]{.alert} que el conjunto de datos original.
+
+## Bootstrap
+
+![](./images/mod4/fig10.png){fig-align="center"}
+
+## Bootstrap
+
+- Se generan $B$ conjuntos $Z^{\star 1},\ldots Z^{\star B}$ con valores $\hat{\alpha}^{\star 1},\ldots,{\alpha}^{\star B}$.
+- Error estándar para estos estimadores:
+
+$$SE_B(\hat{\alpha}) = \sqrt{\dfrac{1}{B-1}\sum\limits_{i=1}^B(\hat{\alpha}^{\star i} - \bar{\hat{\alpha}}^\star)^2}$$
+
+- En el ejemplo $SE_B(\hat{\alpha})=0.087$, similar a $SE(\hat{\alpha})\approx0.083$.
+- En algunos casos "más complejos", se debe pensar en cómo generar muestras de bootstrap.
+  + Ej: Series de tiempo (bloques de observaciones).
+
+
+## Bootstrap
+
+- Intervalo de confianza para $\alpha$ (Histograma ejemplo)
+  + Quartiles $5\%$ y $95\%$ en $(0.43,0.72)$. 
+  + Aproximadamente, $90\%$ intervalo de confianza. [Percentil Bootstrap.]{.bg4}
+- ¿Predicción de error?
+  + Hay mucha sobreposición (en torno a $2/3$ de los datos aparecen en la muestra de bootstrap).
+  + Es más simple hacer la predicción con CV.
