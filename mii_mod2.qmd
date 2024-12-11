@@ -1,6 +1,6 @@
 ---
-title: Módulo 1
-subtitle: A subtitle
+title: Módulo 2
+subtitle: Modelos de Regresión
 format:
   clean-revealjs:
     self-contained: true
@@ -21,59 +21,173 @@ logo: images/logo_usm.png
 bibliography: refs.bib
 ---
 
-## Example slide
+## Regresión Lineal
+
+- Regresión lineal es un método simple para el aprendizaje supervisado.
+- Asume que la dependencia de $Y$ en $X_1,\ldots,X_p$ es lineal
+$$Y = \beta_0 + \beta_1X_1 + \cdots + \beta_pX_p$$
+- Las funciones de regresión reales [nunca]{.alert} son lineales.
+- Aunque simple, es útil teórica y prácticamente.
+
+<center>
+![](./images/mod2/fig0.png){width=50%}
+</center>
+
+# Regresión lineal simple{background-color="#40666e"}
+
+## Regresión lineal simple
+- Recordando los datos de publicidad:
+  + ¿Hay relación entre el presupuesto de publicidad y las ventas?
+  + ¿Qué tan fuerte es la relación?
+  + ¿Qué medio contribuye a las ventas?
+  + ¿Qué tan precisamente se pueden predecir ventas futuas?
+  + ¿Es lineal la relación o hay *interacciones*?
+
+## Regresión lineal simple
+### Definición
+
+![](./images/mod1/2_1.png)
+
+## Regresión lineal simple
+
+- Se considera el modelo 
+
+$$Y = \beta_0 + \beta_1X + \varepsilon,$$
+cuyos [coeficientes]{.bg4} (variables) son $\beta_0$ y $\beta_1$.
+
+Se estiman los coeficientes para predecir las ventas
+
+$$y = \hat{\beta_0} + \hat{\beta_1}x$$
+
+## Regresión lineal simple
+### Solución 
+
+- Se define el [residuo de suma cuadrática]{.bg4} como 
+
+$$RSS = e_1^2+\cdots+e_n^2,$$
+con $e_i = y_i-\hat{y_i} = y_i-\hat{\beta_0}-\hat{\beta_1}x_i$
+
+- Se puede resolver analíticamente:
+
+$$\hat{\beta_1} = \dfrac{\sum\limits_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})}{\sum\limits_{i=1}^n(x_i-\bar{x})^2} \text{ y } \hat{\beta_0} = \bar{y} - \hat{\beta_1}\bar{x}.$$
+
+## Regresión lineal simple
+### Intervalo de confianza
+
+- El [error estándar]{.bg4} de los estimadores es:
+
+$$SE(\hat{\beta_1})^2 = \dfrac{\sigma^2}{\sum\limits_{i=1}^n(x_i-\bar{x})} \text{ y } SE(\hat{\beta_0})^2 = \sigma^2\left[\frac{1}{n} + \dfrac{\bar{x}^2}{\sum\limits_{i=1}^n(x_i-\bar{x})^2}\right]$$
+
+- [Intervalo de confianza]{.bg4} con $95\%$ de confianza 
+
+$$\hat{\beta_i} \pm 2\cdot SE(\hat{\beta_i}).$$
+
+## Regresión lineal simple
+### Test de Hipótesis
+
+- El [test de hipótesis]{.bg4} más común, involucra testear la [hipótesis nula]{.bg3} de:
+  + $H_0:$ No hay relación entre $X$ e $Y$ ($\beta_1 = 0$).
+  + $H_A:$ Hay relación entre $X$ e $Y$ ($\beta_1 \neq 0$).
+
+- Para testearlo se usa el [estadístico $t$]{.bg4}
+
+$$t = \dfrac{\hat{\beta_1}-0}{SE(\hat{\beta_1})} \sim t-\text{Student}(n-2)$$
+
+- [p-value]{.bg3} es la probabilidad de observar un valor $\ge|t|$.
+
+## Regresión lineal simple
+### Ejemplo publicidad 
+
+| | Coeficiente | SE | t-stadistic |p-value|
+|:---------:|:-----:|:------:|:------:|:------:|
+| Intercepto | 7.0325   | 0.4578 |   15.36 | < 0.0001 |
+| TV | 0.0475   | 0.0027 | 17.67 | < 0.0001 |
+
+- Para tener un p-value bajo $0.05$ se requiere un t-stadistic de 2.
+- La probabilidad de ver este resultado bajo la hipótesis nula es $<0.0001$.
+- Se rechaza la hipótesis nula, i.e. $\beta_1\neq0$.
+
+## Regresión lineal simple
+### Precisión del modelo
+
+- [Error estándar residual:]{.bg4}
+
+$$RSE = \sqrt{\frac{1}{n-2}RSS} = \sqrt{\frac{1}{n-2}\sum\limits_{i=1}^n(y_i-\hat{y_i})^2}$$
+
+- [$R^2$]{.bg3} fracción de la varianza explicada es:
+
+$$R^2 = 1 - \dfrac{RSS}{TSS},$$
+
+con $TSS = \sum\limits_{i=1}^n(y_i-\bar{y})^2$.
+
+## Regresión lineal simple
+### Precisión del modelo: Ejemplo
+
+| Cantidad | Valor|
+|:--------:|:----:|
+| RSE | 3.26|
+|$R^2$  | 0.612|
+
+- Usando el presupuesto para `TV` la varianza en ventas se reduce en un $61\%$.
 
 
-## Additional theme classes
 
-### Some extra things you can do with the clean theme
+# Regresión lineal múltiple{background-color="#40666e"}
 
-Special classes for emphasis
+## Regresión lineal múltiple
+### Definición
 
-- `.alert` class for default emphasis, e.g. [important note]{.alert}.
-- `.fg` class for custom colour, e.g. [important note]{.fg style="--col: #e64173"}.
-- `.bg` class for custom background, e.g. [important note]{.box1}.
+- El modelo es:
 
-Cross-references
+$$Y = \beta_0 + \beta_1X_1 + \cdots \beta_pX_p + \varepsilon.$$
 
-- `.button` class provides a Beamer-like button, e.g.
-[[Summary]{.button}](#sec-summary)
+- $\beta_j$ se interpreta como el cambio promedio en $Y$ por unidad de aumento en $X_j$, manteniendo los demás predictores fijos.
+- En el ejemplo de publicidad:
 
-## Want more?
+$$sales = β_0 + β_1\cdot TV + β_2\cdot radio + β_3 \cdot newspaper + \varepsilon.$$
 
-### See our longer demo slides
+## Regresión lineal múltiple
+### Ejemplo presupuesto
 
-We've deliberarely kept this template lean, to get you up and running as fast as
-possible.
+![](./images/mod2/fig1.png){fig-align="center"}
 
-We provide a separate
-[demo template](https://github.com/grantmcdermott/quarto-revealjs-clean-demo),
-with more examples for integrating code, tables, figures, etc.
+## Regresión lineal múltiple
+### Interpretar los coeficientes
 
-  - See the live demo slides
-  [here](https://grantmcdermott.com/quarto-revealjs-clean-demo/template.html).
+- El escenario ideal es cuando los predictores no están correlacionados.
+  + Cada coeficiente puede ser estimado por separado.
+  + Interpretaciones del tipo cambio por unidad, *mutatis mutandis* son posibles.
+- Correlación entre predictores causa problemas:
+  + Varianza de los coeficientes tiende a aumentar.
+  + Más difícil de interpretar (cambia $X_j$ cambia todo).
 
-## Summary {#sec-summary}
+## Regresión lineal múltiple
+### Solución
 
-### A minimalist and elegant presentation theme
+- Se define el [residuo de suma cuadrática]{.bg4} como 
 
-The Quarto reveal.js clean theme aims to be a minimalist and elegant presention
-theme. Here are some options to get you started:
+$$RSS = e_1^2+\cdots+e_n^2,$$
+con $e_i =  y_i-\hat{\beta_0}-\hat{\beta_1}x_{i1} - \cdots - \hat{\beta_p}x_{ip}$
 
-Add the theme to an existing project.
+- Se puede resolver analíticamente, pero computacionalmente se resuelve rápidamente.
 
-```{.bash}
-quarto install extension grantmcdermott/quarto-revealjs-clean
-```
+## Regresión lineal múltiple
+### Ejemplo de publicidad 
 
-... or, create a new project using this slide deck as a lean template.
+| | Coeficiente | SE | t-stadistic | p-value |
+|:--|:--:|:--:|:--:|:--:|
+|Intercepto|2.939|0.3119|9.42|<0.0001|
+|TV| 0.046|0.0014|32.81|<0.0001|
+|radio|0.189|0.0086|21.89|<0.0001|
+|periódico|-0.001|0.0059|-0.18|0.8599|
 
-```{.bash}
-quarto use template grantmcdermott/quarto-revealjs-clean
-```
+- Correlaciones
 
-... or, create a new project using the demo slide deck as a full template.
+| | TV | radio | periódico | ventas|
+|:--|:--:|:--:|:--:|:--:|
+|TV|1.0000|0.0548|0.0567|0.7822|
+|radio||1.0000|0.3541|0.5762|
+|periódico|||1.0000|0.2283|
+|ventas||||1.000|
 
-```{.bash}
-quarto use template grantmcdermott/quarto-revealjs-clean-demo
-```
+# Regresión polinomial{background-color="#40666e"}

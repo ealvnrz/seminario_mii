@@ -1,6 +1,6 @@
 ---
 title: Módulo 1
-subtitle: A subtitle
+subtitle: Introducción y Conceptos Básicos
 format:
   clean-revealjs:
     self-contained: true
@@ -20,60 +20,201 @@ lang: es
 logo: images/logo_usm.png
 bibliography: refs.bib
 ---
+# Introducción {background-color="#40666e"}
 
-## Example slide
+## Introducción
+### Aspectos del curso
+
+- El curso *Seminario de Ingeniería Industrial* tiene como propósito entregar a los estudiantes una formación integral en conceptos y aplicaciones de la [ciencia de datos]{.alert}, con un enfoque en su aplicabilidad en contextos industriales y de ingeniería. Durante el desarrollo del curso, se abordarán los fundamentos del [aprendizaje estadístico]{.alert} y la evaluación de modelos, así como técnicas avanzadas de modelamiento y análisis de datos.
+
+## Introducción
+### Aspectos del curso
+
+* Los contenidos se estructuran en [módulos]{.alert} que incluyen:
+  + [Modelos de regresión:]{.alert} lineal, múltiple y polinomial.
+  + [Técnicas de clasificación:]{.alert} regresión logística, análisis discriminante y *naive Bayes*.
+  + [Métodos no supervisados]{.alert} como análisis de componentes principales y *clustering*. 
+  + [Enfoques avanzados]{.alert} como *Support Vector Machines* y *Deep Learning*. En este último módulo, se estudiarán redes neuronales multicapa, convolucionales y recurrentes.
+
+## Introducción
+### Aspectos del curso
+
+Este curso está basado en el libro
+
+<center>
+![](./images/mod1/fig0.png){width=30%}
+</center>
+
+## Introducción
+### Aspectos del curso
+
+* El material del curso lo pueden encontrar en 
+
+<center>
+<https://github.com/ealvnrz/seminario_mii>
+</center>
+
+<center>
+![](./images/mod1/fig00.png){width=80%}
+</center>
+
+## Introducción
+### Aspectos del curso
+
+La nota final ($NF$) de la asignatura será calculada de la siguiente manera:
+
+$$NF = 0.4 * \overline{Q} + 0.6 * P,$$
+
+donde $\overline{Q}$ es el promedio de quizzes y $P$ la nota del proyecto final del curso.
+
+# Aprendizaje Estadístico{background-color="#40666e"}
+
+## Aprendizaje Estadístico
+### ¿Qué es el aprendizaje estadístico?
+
+- Campo de estudio que se centra en el desarrollo, análisis e implementación de métodos para comprender y predecir patrones en datos.
+
+- Combina herramientas matemáticas y estadísticas con técnicas de computación para construir modelos que permiten analizar relaciones entre variables, identificar estructuras subyacentes y hacer predicciones basadas en datos observados.
+
+## Aprendizaje Estadístico
+### ¿Qué es el aprendizaje estadístico?: Tipos de problemas
+
+- **Supervisado**
+  + Se dispone de datos etiquetados $(X,Y)$, y el objetivo es aprender una relación $f(X)$ para predecir $Y$.
+    + Predicción vs Inferencia.
+    + *Regresión*: Output cuantitativo.
+    + *Clasificación*: Output cualitativo.
+- **No Supervisado**
+  + No hay una variable de respuesta $Y$, y el objetivo es identificar patrones o estructuras en los datos $X$.
+    + Entender la relación entre las variables
+
+## Aprendizaje Estadístico
+### Modelos supervisados
+
+Veámoslo a través de un ejemplo ... 
+
+<center>
+![](./images/mod1/2_1.png){width=60%}
+</center>
+
+¿Podemos predecir las [`ventas`]{.bg4} utilizando estas tres variables?
+
+¿Sería mejor utilizando un modelo conjunto? [`venta`]{.bg4} $\approx f$([`T`]{.bg4},[`R`]{.bg4},[`P`]{.bg4})
+
+## Aprendizaje Estadístico
+### Modelos supervisados
+
+- Supongamos que observamos una respuesta cuantitativa $Y$ y $p$ predictores diferentes, $X_1,X_2,\ldots,X_p$​. 
+- Asumimos que existe alguna relación entre $$Y \text{ y } X=(X_1,X_2,\ldots,X_p).$$ 
+- Esta se puede expresar en la forma muy general:
+$$Y=f(X)+\varepsilon$$
+donde:
+  + $f$ es una función fija pero desconocida de $X_1,\ldots,X_p$.
+  + $\varepsilon$ es un término de error aleatorio, que es independiente de $X$ y tiene media cero.
+
+## Aprendizaje Estadístico
+### Modelos supervisados
+<center>
+![](./images/mod1/fig2.png){width=80%}
+</center>
+
+Ejemplo de la presencia de error aleatorio $\varepsilon$.
+
+## Aprendizaje Estadístico
+### Modelos supervisados: ¿Por qué estimar $f$?
+
+- [Predicción]{.bg1}: 
+  + En muchas situaciones, un conjunto de inputs $X$ está fácilmente disponible, pero el output $Y$ no puede obtenerse fácilmente. 
+  + Dado que el término de error promedia a cero, podemos predecir $Y$ usando $\hat{Y}=\hat{f}(X).$
+  + En este contexto, $\hat{f}$ a menudo se trata como una [caja negra]{.alert}, en el sentido de que generalmente no importa la forma exacta de $\hat{f}$​, siempre que proporcione predicciones precisas para $Y$.
+  
 
 
-## Additional theme classes
+## Aprendizaje Estadístico
+### Modelos supervisados: ¿Por qué estimar $f$?
 
-### Some extra things you can do with the clean theme
+- [Inferencia]{.bg1}:
+  + A menudo estamos interesados en comprender la asociación entre $Y$ y $X_1,\ldots,X_p$​.
+  + $\hat{f}$​ no puede tratarse como una caja negra, porque necesitamos conocer su forma exacta. 
+  + Podría interesarnos responder las siguientes preguntas:
+    - ¿Qué predictores están asociados con la respuesta?
+    - ¿Cuál es la relación entre la respuesta y cada predictor?
+    - ¿Puede la relación entre $Y$ y cada predictor resumirse adecuadamente usando una ecuación lineal, o es más complicada?
 
-Special classes for emphasis
 
-- `.alert` class for default emphasis, e.g. [important note]{.alert}.
-- `.fg` class for custom colour, e.g. [important note]{.fg style="--col: #e64173"}.
-- `.bg` class for custom background, e.g. [important note]{.box1}.
+## Aprendizaje Estadístico
+### Modelos supervisados: ¿Por qué estimar $f$?
 
-Cross-references
+<center>
+![](./images/mod1/fig3.png){width=40%}
+</center>
 
-- `.button` class provides a Beamer-like button, e.g.
-[[Summary]{.button}](#sec-summary)
+- La [función de regresión]{.bg4} $f(x) = \mathbb{E}(Y \mid X = x)$ es el predictor [ideal]{.alert} u [óptimo]{.alert} de $Y$ con respecto al error cuadrático medio de predicción.
 
-## Want more?
+- Esta es la función que minimiza $\mathbb{E}\left[(Y - g(X))^2 \mid X = x\right]$ para todas las funciones $g$ en todos los puntos $X = x$.
 
-### See our longer demo slides
+- Hay error reducible e irreducible:
+  $$\mathbb{E}(Y-\hat{Y})^2 = \underbrace{[f(X)-\hat{f}(X)]^2}_{\text{Reducible}} + \underbrace{Var(\varepsilon)}_{Irreducible}$$
 
-We've deliberarely kept this template lean, to get you up and running as fast as
-possible.
+## Aprendizaje Estadístico
+### Modelos supervisados: Paramétrico vs No paramétrico
 
-We provide a separate
-[demo template](https://github.com/grantmcdermott/quarto-revealjs-clean-demo),
-with more examples for integrating code, tables, figures, etc.
+- [Paramétrico:]{.bg1}
+  + Se hace una suposición sobre la forma de $f$ (Ej: Lineal, polinomial).
+  + Se usan los [datos de entrenamiento]{.alert} para *entrenar* el modelo.
+  + Si la forma del modelo elegida es muy distinta de $f$, el estimador puede ser malo.
+  + Más interpretables (inferencia).
 
-  - See the live demo slides
-  [here](https://grantmcdermott.com/quarto-revealjs-clean-demo/template.html).
 
-## Summary {#sec-summary}
+## Aprendizaje Estadístico
+### Modelos supervisados: Paramétrico vs No paramétrico
+- [No paramétrico:]{.bg1}
+  + No se hacen suposiciones sobre la forma de $f$.
+  + Se busca una estimación de $f$ que se acerque lo más posible a los datos de entrenaniento, sin ser demasiado abrupta o con demasiadas oscilaciones. 
+  + Potencial de ajustarse con precisión a una gama más amplia de posibles formas de $f$.
+  + Se requiere un número mucho más grande de observaciones para obtener una estimación precisa de $f$.
+  + No siempre es mejor para predicción.
 
-### A minimalist and elegant presentation theme
+## Aprendizaje Estadístico
+### Modelos supervisados: Paramétrico vs No paramétrico
 
-The Quarto reveal.js clean theme aims to be a minimalist and elegant presention
-theme. Here are some options to get you started:
+::: {layout-ncol=2}
 
-Add the theme to an existing project.
+![](./images/mod1/fig4.png)
 
-```{.bash}
-quarto install extension grantmcdermott/quarto-revealjs-clean
-```
+![](./images/mod1/fig5.png)
 
-... or, create a new project using this slide deck as a lean template.
+:::
 
-```{.bash}
-quarto use template grantmcdermott/quarto-revealjs-clean
-```
+- *`Overfitting.`*
 
-... or, create a new project using the demo slide deck as a full template.
+# Evaluación de modelos{background-color="#40666e"}
 
-```{.bash}
-quarto use template grantmcdermott/quarto-revealjs-clean-demo
-```
+## Evaluación de Modelos
+### Medir calidad del estimador
+
+- [Error cuadrático medio:]{.bg1} (Entrenamiento y Test)
+
+<center>
+$$MSE = \frac{1}{n}\sum\limits_{i=1}^n(y_i-\hat{f}(x_i))^2$$
+</center>
+
+<center>
+![](./images/mod1/fig6.png){width=50%}
+</center>
+
+## Evaluación de Modelos
+### Medir calidad del estimador
+
+- [Error cuadrático medio:]{.bg1} (Test)
+
+<center>
+$$\mathbb{E}(y_0-\hat{f}(x_0))^2 = Var[\hat{f}(x_0)] + [Bias(\hat{f}(x_0))]^2 + Var(\varepsilon)$$
+</center>
+
+<center>
+![](./images/mod1/fig7.png){width=50%}
+</center>
+
+- Cambio en $\hat{f}$ si se estima usando otros datos.
+- Error de aproximación por modelo más simple.
