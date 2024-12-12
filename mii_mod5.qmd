@@ -51,6 +51,48 @@ bibliography: refs.bib
   + Puede producir variables alternativas para usar en problemas de aprendizaje supervisado.
   + También sirve como herramiente para la visualización de datos.
 
+## Análsis de Componentes Principales (PCA)
+### Primera Componente Principal 
+
+- El [primer componente principal]{.bg4} de un conjunto de características $X_1,\ldots,X_p$ es la [combinación lineal normalizada]{.alert} de las características:
+$$Z_1 = \phi_{11}X_1+\cdots+\phi_{p1}X_p$$
+que maximiza la varianza.
+  + [Normalizado]{.alert} significa que $\|\phi_1\|^2_2 = 1$, con $\phi_1 = (\phi_{11},\ldots,\phi_{p1})^\top.$
+  + ¿Por qué normalizar?
+
+## Análsis de Componentes Principales (PCA)
+### Ejemplo
+
+![](./images/mod5/fig1.png)
+
+## Análsis de Componentes Principales (PCA)
+### Cálculo de Componentes Principales
+
+- Conjunto de datos $X$ de $n\times p$.
+  + Se asumen [datos centrados]{.alert} (promedio de las columnas es $0$).
+  + Simplifica los cálculos.
+- Se busca la combinación lineal de las características
+$$z_{i1} = \phi_{11}x_{i1} + \cdots + \phi_{p1}x_{ip}$$
+que maximiza la varianza, sujeto a $\|\phi_1\|^2_2 = 1$.
+
+- Como las columnas de $X$ tienen promedio $0$, también lo tiene $z_{i1}$ (independiente del valor de $\phi_1$).
+  + La varianza de $z_{i1}$ puede escribirse $\frac{1}{n}\sum\limits_{i=1}^nz_{i1}^2.$
+
+## Análsis de Componentes Principales (PCA)
+### Cálculo de Componentes Principales
+
+- Entonces el problema de encontrar el primer componente principal, consiste en resolver el problema
+
+\begin{equation*}
+\begin{array}{rrl}
+\max\limits_{\phi_1} & \frac{1}{n}\sum\limits_{i=1}^n\left(\sum\limits_{j=1}^p\phi_{j1}x_{ij}\right)^2 &\\
+\text{s.t.} & \sum\limits_{j=1}^p\phi_{j1}^2 &= 1
+\end{array}
+\end{equation*}
+
+- Se puede resolver con descomposición de valores singulares (SVD). 
+- $Z_1$ es el [primer componente principal]{.bg4} con [valores de realización]{.bg3} $z_{11},\ldots,z_{n1}$. 
+
 # Métodos de Clustering{background-color="#40666e"}
 
 ## Métodos de Clustering
