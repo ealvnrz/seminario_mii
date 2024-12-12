@@ -15,7 +15,7 @@ author:
   - name: Esteban Salgado Valenzuela
     orcid: 0000-0002-7799-0044
     affiliations: Universidad Técnica Federico Santa María
-date: 12/13/2024
+date: 12/14/2024
 lang: es
 logo: images/logo_usm.png
 bibliography: refs.bib
