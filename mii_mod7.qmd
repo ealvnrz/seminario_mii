@@ -25,6 +25,123 @@ bibliography: refs.bib
 
 ## Redes Neuronales
 
-Una [red neuronal artificial, ANN]{.bg3} por sus siglas en inglés [artificial neural network]{.fg1} modelan la relación entre un conjunto de [*señales* de entrada]{.bg4} y una [*señal de salida*]{.bg2} usando un modelo derivado desde nuestro entendimiento de cómo funciona un cerebro biológico ante estímulos externos.
+Una [red neuronal artificial, ANN]{.bg3} por sus siglas en inglés [artificial neural network]{.fg1} modelan la relación entre un conjunto de [*señales* de entrada]{.bg4} y una [*señal de salida*]{.bg2} usando un modelo derivado desde [nuestro entendimiento de cómo funciona un cerebro biológico]{.bg1} ante estímulos externos.
 
-Tal como un cerebro usa una red de células interconectadas llamadas **neuronas**, una **red neuronal** usa una red de neuronas artificiales o **nodos** para resolver problemas de aprendizaje.
+Tal como un cerebro usa una red de células interconectadas llamadas [neuronas]{.bg4}, una [red neuronal]{.bg3} usa una red de neuronas artificiales o [nodos]{.fg1} para resolver problemas de aprendizaje.
+
+## Red Neuronal de Capa Única{.small}
+
+::::{.columns}
+
+:::{.column}
+
+<center>
+![](images/mod7/red.png){width=500}
+</center>
+:::
+
+:::{.column}
+
+```{=tex}
+\begin{align*}
+f(X) &= \beta_0 + \sum_{k=1}^K \beta_k h_k(X) \\
+&= \beta_0 + \sum_{k=1}^K \beta_k g\left(w_{k0} + \sum_{j=1}^p w_{kj} X_j\right).
+\end{align*}
+```
+:::
+::::
+
+
+## Red Neuronal de Capa Única{.small}
+
+
+<center>
+![](images/mod7/acti.png){width=400}
+</center>
+
+- $A_k = h_k(X) = g\left(w_{k0} + \sum_{j=1}^p w_{kj} X_j\right)$ se denominan [activaciones]{.bg3} en la capa oculta.  
+- $g(z)$ se denomina [función de activación]{.bg1}. Las más populares son la función [sigmoide]{.fg1} y la [rectificada lineal]{.fg1} (ReLU), mostradas en la figura.  
+- Las funciones de activación en las capas ocultas suelen ser [no lineales]{.bg2}, de lo contrario el modelo colapsaría a un modelo lineal.  
+- Por lo tanto, las activaciones son como [características derivadas]{.bg4}: transformaciones no lineales de combinaciones lineales de las características.  
+- El modelo se ajusta minimizando $\sum_{i=1}^n (y_i - f(x_i))^2$.
+
+## Ejemplo: Dígitos MNIST{.small}
+
+::::{.columns}
+:::{.column}
+<center>
+![](images/mod7/mnist.png)
+</center>
+:::
+
+:::{.column}
+- [Dígitos escritos a mano]{.bg4}, en escala de grises de tamaño $28 \times 28$.  
+- [$60.000$ imágenes de entrenamiento]{.bg1}, [$10.000$ imágenes de prueba]{.bg2}.
+- Las características son los [784 valores de píxeles]{.bg3} en escala de grises $\in (0, 255)$  
+- Las etiquetas corresponden a las clases de dígitos del [0 al 9]{.fg1}.  
+:::
+
+::::
+::: box2
+[Objetivo]{.fg1}: construir un clasificador para predecir la clase de la imagen.  
+:::
+
+## Ejemplo: Dígitos MNIST{.small}
+
+Construimos una red neuronal de [dos capas]{.bg1} con:
+
+  - [256 unidades]{.bg4} en la primera capa,  
+  - [128 unidades]{.bg2} en la segunda capa,  
+  - [10 unidades]{.bg3} en la capa de salida.  
+  - Junto con los [interceptos (*sesgos*)]{.bg1}, hay un total de [235,146 parámetros (*pesos*)]{.bg3}.
+
+
+## Ejemplo: Dígitos MNIST{.small}
+
+<center>
+![](images/mod7/red_2.png){width=600}
+</center>
+
+## Ejemplo: Dígitos MNIST{.small}
+### Detalles de la Capa de Salida
+
+- Sea $Z_m = \beta_{m0} + \sum_{\ell=1}^{K_2} \beta_{m\ell} A_{\ell}^{(2)}$, donde $m = 0, 1, \dots, 9$ son [10 combinaciones lineales de activaciones en la segunda capa]{.bg4}.
+
+- La función de activación de salida codifica la [función *softmax*]{.bg3}:
+
+$$
+f_m(X) = \mathbb{P}(Y = m \mid X) = \frac{e^{Z_m}}{\sum_{\ell=0}^9 e^{Z_\ell}}.
+$$
+
+- Ajustamos el modelo minimizando la [verosimilitud negativa multinomial]{.bg1} (o entropía cruzada):
+
+$$
+- \sum_{i=1}^n \sum_{m=0}^9 y_{im} \log(f_m(x_i)).
+$$
+
+- $y_{im}$ es 1 si la clase verdadera para la observación $i$ es $m$, de lo contrario es 0 — es decir, [one-hot encoded]{.bg2}.
+
+## Resultados
+
+| **Método**                             | **Error de prueba** |
+|----------------------------------------|---------------:|
+| [Red neuronal + Regularización Ridge]{.bg4} | **2.3%**       |
+| [Red neuroral + Regularización Dropout]{.bg3} | **1.8%**       |
+| [Regresión logística multinomial]{.bg1}        | **7.2%**       |
+| [Análisis discriminante lineal]{.bg2}        | **12.7%**      |
+
+- Al tener tantos parámetros, la regularización es esencial.
+- Problema ampliamente estudiado: las mejores tasas reportadas son $< 0.5\%$.
+- [La tasa de error humana se reporta alrededor de $0.2\%$, o $20$ de las $10.000$ imágenes de prueba.]{.fg1}
+
+## Redes Neuronales Convolucionales (CNN)
+
+<center>
+![](images/mod7/cnn.jpg){width=700}
+</center>
+
+- Las imágenes corresponder al conjunto de datos `CIFAR100`. 
+- [Imágenes a color de $32 \times 32$ de $100$ clases distintas]{.bg4}.
+- $50.000$ imágenes de entrenamiento, $10.000$ imágenes de prueba.
+- Cada imagen es un arreglo tridimensional o un [*mapa de características*]{.bg3}: una matriz de $32 \times 32 \times 3$ compuesta por números de 8 bits.  
+- La última dimensión representa los tres canales de color: [rojo, verde y azul]{.fg1}.
