@@ -21,9 +21,35 @@ logo: images/logo_usm.png
 bibliography: refs.bib
 ---
 
+## Aprendizaje no supervisado
+### No supervisado vs Supervisado
+
+- Hemos visto modelos supervisados (ej: regresión, clasificación).
+- En ese contexto se observan características $X_1,\ldots,X_p$ y una respuesta $Y$ para cada dato.
+  + Se busca predecir $Y$ usando $X_1,\ldots,X_p$
+- En el [aprendizaje no supervisado,]{.bg4} solo se observan las características $X_1,\ldots,X_p$.
+  + No hay predicción.
+- El objetivo es descubrir cosas interesantes de los datos.
+  + ¿Se pueden visualizar los datos con sentido?
+  + ¿Podemos descubrir subgrupos entre las variables u observaciones?
+
+## Aprendizaje no supervisado
+### No supervisado vs Supervisado
+
+- El aprendizaje no supervisado es más subjetivo que el supervisado.
+  + No hay un objetivo simple de análisis, como una predicción o respuesta.
+
+- Usualmente, es más fácil obtener datos [sin etiqutar]{.alert} que etiqutados.
+  + El etiquetado puede requerir intervención humana.
+
 # Análsis de Componentes Principales{background-color="#40666e"}
 
-## Análsis de Componentes Principales
+## Análsis de Componentes Principales (PCA)
+
+- [PCA]{.bg3} produce una representación de baja dimensión del conjunto de datos.
+- Encuentra una secuencia de combinaciones lineales de las variables con [máxima varianza]{.alert} y [mutuamente no correlacionadas]{.alert}.
+  + Puede producir variables alternativas para usar en problemas de aprendizaje supervisado.
+  + También sirve como herramiente para la visualización de datos.
 
 # Métodos de Clustering{background-color="#40666e"}
 
