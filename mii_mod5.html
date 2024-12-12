@@ -1112,6 +1112,25 @@ Esteban Salgado Valenzuela <a href="https://orcid.org/0000-0002-7799-0044" class
 <li>Se puede resolver con descomposición de valores singulares (SVD).</li>
 <li><span class="math inline">\(Z_1\)</span> es el <span class="bg4">primer componente principal</span> con <span class="bg3">valores de realización</span> <span class="math inline">\(z_{11},\ldots,z_{n1}\)</span>.</li>
 </ul>
+</section>
+<section id="análsis-de-componentes-principales-pca-5" class="slide level2">
+<h2>Análsis de Componentes Principales (PCA)</h2>
+<h3 id="geometría-de-pca">Geometría de PCA</h3>
+<ul>
+<li>El vector de <span class="bg4">loading</span> <span class="math inline">\(\phi_1\)</span> define una dirección en el espacio de las características donde los datos varían más.</li>
+<li>Si se proyectan los <span class="math inline">\(n\)</span> datos <span class="math inline">\(x_1,\ldots,x_n\)</span> en esta dirección, los valores proyectados son <span class="math inline">\(z_{11},\ldots,z_{n1}\)</span>.</li>
+</ul>
+</section>
+<section id="análsis-de-componentes-principales-pca-6" class="slide level2">
+<h2>Análsis de Componentes Principales (PCA)</h2>
+<h3 id="más-componentes-principales">Más componentes principales</h3>
+<ul>
+<li>La segunda componente principal, es la combinación lineal de <span class="math inline">\(X_1,\ldots,X_p\)</span> que tiene máxima varianza entre las combinaciones lineales que <span class="bg4">no están correlacionadas</span> con <span class="math inline">\(Z_1\)</span>.</li>
+<li>Los valores de la segunda componente principal toman la forma <span class="math display">\[z_{i2} = \phi_{12}x_{i1} + \cdots + \phi_{p2}x_{ip}\]</span>
+<ul>
+<li>El vactor de <em>loading</em> asociado es <span class="math inline">\(\phi_2 = (\phi_{12},\ldots,\phi_{p2})^\top\)</span>.</li>
+</ul></li>
+</ul>
 </section></section>
 <section>
 <section id="métodos-de-clustering" class="title-slide slide level1 center" data-background-color="#40666e">

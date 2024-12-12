@@ -93,6 +93,23 @@ que maximiza la varianza, sujeto a $\|\phi_1\|^2_2 = 1$.
 - Se puede resolver con descomposición de valores singulares (SVD). 
 - $Z_1$ es el [primer componente principal]{.bg4} con [valores de realización]{.bg3} $z_{11},\ldots,z_{n1}$. 
 
+## Análsis de Componentes Principales (PCA)
+### Geometría de PCA
+
+- El vector de [loading]{.bg4} $\phi_1$ define una dirección en el espacio de las características donde los datos varían más.
+- Si se proyectan los $n$ datos $x_1,\ldots,x_n$ en esta dirección, los valores proyectados son 
+$z_{11},\ldots,z_{n1}$.
+
+## Análsis de Componentes Principales (PCA)
+### Más componentes principales
+
+- La segunda componente principal, es la combinación lineal de $X_1,\ldots,X_p$ que tiene máxima varianza entre las combinaciones lineales que [no están correlacionadas]{.bg4} con $Z_1$.
+- Los valores de la segunda componente principal toman la forma
+$$z_{i2} = \phi_{12}x_{i1} + \cdots + \phi_{p2}x_{ip}$$
+  + El vactor de *loading* asociado es $\phi_2 = (\phi_{12},\ldots,\phi_{p2})^\top$.
+
+
+
 # Métodos de Clustering{background-color="#40666e"}
 
 ## Métodos de Clustering
