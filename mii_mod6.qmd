@@ -22,3 +22,264 @@ bibliography: refs.bib
 ---
 
 # Support Vector Machines {background-color="#40666e"}
+
+## Support Vector Machine
+
+- Esta metodología fue desarrollada en lo '90 por la comunidad de ciencias computacionales. 
+
+- Consiste en la generalización de un clasificador llamado [clasificador de máximo margen]{.bg1}, que destaca por su simpleza, pero que en la práctica es difícil de utilizar debido a que requiere que las clases sean separables por un límite lineal.
+
+- Antes de definir el clasificador de máximo margen, debemos introducir dos conceptos fundamentales:
+  - [Hiperplano]{.bg3}
+  - [Hiperplano de separación óptimo]{.bg2}
+
+## ¿Qué es un Hiperplano?
+
+Un hiperplano en $p$ dimensiones es un [subespacio afín plano de dimensión $p - 1$]{.bg3}.
+
+- En general, la ecuación de un hiperplano tiene la forma:
+  $$
+  \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p = 0
+  $$
+
+- En $p = 2$ dimensiones, un [hiperplano es una línea]{.bg4}.
+
+- Si $\beta_0 = 0$, el hiperplano pasa por el origen; de lo contrario, no.
+
+- El vector $\beta = (\beta_1, \beta_2, \dots, \beta_p)$ se llama [vector normal]{.bg1} — apunta en una dirección ortogonal a la superficie del hiperplano.
+
+## ¿Qué es un Hiperplano?
+
+<center>
+![](images/mod6/hiperplano.jpg)
+</center>
+
+## ¿Qué es un Hiperplano?{.small}
+
+<center>
+![](images/mod6/hiperplano2.png)
+</center>
+
+- Si $f(X) = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p$, entonces $f(X) > 0$ para los puntos en un lado del hiperplano, y $f(X) < 0$ para los puntos en el otro.
+
+- Si codificamos los puntos coloreados como $Y_i = +1$ con azul, por ejemplo, y $Y_i = -1$ con rojo, entonces si $Y_i \cdot f(X_i) > 0$ para todo $i$, $f(X) = 0$ define un [hiperplano separador]{.bg3}.
+
+## Clasificador de máximo margen{.small}
+
+Entre todos los [hiperplanos separadores]{.bg3}, se busca encontrar aquel que [maximice la brecha o margen entre las dos clases]{.bg1}.
+
+::::{.columns}
+
+:::{.column}
+
+![](images/mod6/hiperplano_mm.png)
+:::
+
+:::{.column}
+```{=tex}
+\begin{align*}
+&\max_{\beta_0,\beta_1,\dots,\beta_p} \quad M\\
+&\text{ Sujeto a } \sum_{j=1}^{p} \beta_{j}^{2}=1 \\
+&y_i(\beta_0 +\beta_0+\beta_1 x_{i1}+\dots+\beta_p x_{ip})\geq M \\
+&\forall i=1,\dots,n
+\end{align*}
+```
+:::
+::::
+
+## Datos no separables
+
+::::{.columns}
+
+:::{.column}
+
+<center>
+![](images/mod6/no_separable.png)
+</center>
+:::
+
+:::{.column}
+- Los datos de la izquierda [no son separables por una recta lineal].
+
+- Esto es el caso usual, a menos que $N<p$.
+
+:::
+::::
+
+## Datos ruidosos/pertubados 
+
+<center>
+![](images/mod6/noisy.png)
+</center>
+- A veces los datos son separables, pero están perturbados. Esto puede llevar a [soluciones no-óptimas para el clasificador de margen máximo]{.bg3}.
+
+- El clasificador de vectores de soporte [maximiza un margen suave]{.bg4}.
+
+## Clasificador de vectores de soporte (*soft margin classifier*) {.small}
+
+<center>
+![](images/mod6/soft.png){width=80%}
+</center>
+
+```{=tex}
+\begin{align*}
+&\max_{\beta_0,\beta_1,\dots,\beta_p; \epsilon_1,\dots,\epsilon_n} \quad M \quad \quad \text{ Sujeto a } \sum_{j=1}^{p} \beta_{j}^{2}=1 \\
+&y_i(\beta_0 +\beta_0+\beta_1 x_{i1} +\beta_2 x_{i2}+\dots+\beta_p x_{ip})\geq M (1-\epsilon_i) \quad \forall i=1,\dots,n \\
+&\epsilon_i \geq 0, \sum_{i=1}^{n} \epsilon_i \leq C
+\end{align*}
+```
+
+## $C$ es un parámetro de regularización
+
+<center>
+![](images/mod6/c_param.png)
+</center>
+
+## Una separación lineal puede fallar
+
+<center>
+![](images/mod6/lineal.png)
+</center>
+
+- A veces una [separación lineal]{.bg1} simplemente no funciona, para ningún valor de $C$.
+
+
+## Expansión de características{.small}
+
+- Ampliar el [espacio de características]{.bg4} mediante la inclusión de transformaciones; por ejemplo: $X_1^2, X_1^3, X_1 X_2, X_1 X_2^2, \dots$. De este modo, se pasa de un espacio de $p$ dimensiones a un espacio de $M > p$ dimensiones.
+
+- Ajustar un clasificador de vectores de soporte en el espacio ampliado.
+
+- Esto da como resultado [fronteras de decisión no lineales]{.bg3} en el espacio original.
+
+Supongamos que utilizamos $(X_1, X_2, X_1^2, X_2^2, X_1 X_2)$ en lugar de solo $(X_1, X_2)$. Entonces la [frontera de decisión]{.bg1} sería de la forma:  
+$$
+\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1^2 + \beta_4 X_2^2 + \beta_5 X_1 X_2 = 0
+$$  
+
+## Polinomios cúbicos
+
+
+::::{.columns}
+
+:::{.column}
+
+<center>
+![](images/mod6/cubic.jpg)
+</center>
+:::
+
+:::{.column}
+
+- Aquí utilizamos una expansión de base con [polinomios cúbicos]{.bg3}.  
+- Se pasa de [2 variables a 9 características]{.bg4}.  
+- El clasificador de vectores de soporte en el espacio ampliado [resuelve el problema en el espacio de menor dimensión]{.bg1}.
+
+:::
+::::
+
+:::{.small}
+$$
+\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_1^2 + \beta_4 X_2^2 + \beta_5 X_1 X_2 + \beta_6 X_1^3 + \beta_7 X_2^3 + \beta_8 X_1 X_2^2 + \beta_9 X_1^2 X_2 = 0
+$$
+:::
+
+## No linealidades y Núcleos (kernels)
+
+- Los polinomios (especialmente los de alta dimensión) [se vuelven inestables rápidamente]{.bg1}.  
+- Existe una forma más elegante y controlada de introducir [no linealidades]{.bg4} en los clasificadores de vectores de soporte: a través del [uso de núcleos]{.bg2}.  
+- Antes de discutir esto, debemos entender rol de los [productos internos]{.bg3} en los clasificadores de vectores de soporte.
+
+
+## Productos internos y vectores soporte{.small}
+
+$$
+\langle x_i, x_i' \rangle = \sum_{j=1}^p x_{ij} x_{i'j} \quad \text{— producto interno entre vectores}
+$$  
+
+- El [clasificador lineal de vectores de soporte]{.bg1} se puede representar como:  
+$$
+f(x) = \beta_0 + \sum_{i=1}^n \alpha_i \langle x, x_i \rangle \quad \text{— \(n\) parámetros}
+$$  
+
+- Para estimar los parámetros $\alpha_1, \dots, \alpha_n$ y $\beta_0$, sólo [necesitamos los $\binom{n}{2}$ productos internos $\langle x_i, x_i' \rangle$]{.bg4} entre todos los pares de observaciones del entrenamiento.  
+
+## Productos internos y vectores soporte{.small}
+
+Si podemos calcular los [productos internos entre observaciones]{.bg3}, podemos ajustar un clasificador de vectores de soporte. 
+
+- Algunas [funciones de núcleo (kernels) especiales]{.bg4} pueden hacer esto. Por ejemplo:
+$$
+K(x_i, x_i') = \left( 1 + \sum_{j=1}^p x_{ij} x_{i'j} \right)^d,
+$$  
+[calcula los productos internos]{.bg1} necesarios para polinomios de dimensión $d$:  
+$$
+\binom{p + d}{d} \quad \text{funciones base}.
+$$
+
+## Kernel Radial
+
+$$
+K(x_i, x_i') = \exp\left(-\gamma \sum_{j=1}^p (x_{ij} - x_{i'j})^2\right).
+$$
+
+::::{.columns}
+
+:::{.column}
+
+<center>
+![](images/mod6/radial.jpg)
+</center>
+:::
+
+:::{.column}
+
+- La función de decisión puede representarse como:  
+$$
+f(x) = \beta_0 + \sum_{i \in S} \hat{\alpha}_i K(x, x_i)
+$$
+
+- El [espacio de características]{.bg3} implícito es de [dimensión muy alta]{.bg1}.  
+- Se controla la [varianza]{.bg2} al reducir drásticamente la mayoría de las dimensiones.
+
+
+:::
+::::
+
+## SVM vs Regresión Logística{.small}
+
+Con $f(X) = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p$, se puede reformular la optimización del [clasificador de vectores de soporte]{.bg1} como:  
+$$
+\min_{\beta_0, \beta_1, \dots, \beta_p}  
+\left\{ \sum_{i=1}^n \max \left[ 0, 1 - y_i f(x_i) \right] + \lambda \sum_{j=1}^p \beta_j^2 \right\}.
+$$
+
+::::{.columns}
+
+:::{.column}
+
+<center>
+![](images/mod6/svm_lr.png)
+</center>
+:::
+
+:::{.column}
+<br>
+<br>
+Esto tiene la forma de [pérdida más penalización]{.fg1}.
+
+- La [pérdida]{.bg4} se conoce como [pérdida de bisagra]{.bg3}** (*hinge loss*).  
+- Es muy similar a la "pérdida" en la regresión logística (log-verosimilitud negativa).
+
+:::
+::::
+
+## Comparación entre SVM, LR y LDA
+
+- Cuando las clases son (casi) separables, [SVM]{.bg3} funciona mejor que la [Regresión Logística (LR)]{.bg4} . Lo mismo ocurre con [LDA]{.bg1} (Análisis Discriminante Lineal).  
+
+- Cuando no lo son, la Regresión Logística (con penalización) y SVM son muy similares.  
+
+- Si se desea estimar [probabilidades]{.bg1}, la [Regresión Logística]{.fg1} es la opción.  
+
+- Para [fronteras no lineales]{.bg2}, los [SVM con núcleos (kernel SVMs)]{.bg4} son populares.  
