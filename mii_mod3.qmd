@@ -251,7 +251,7 @@ donde:
 
 - Estimar [$f_k(X)$ tiende a ser más difícil]{.bg1}, a menos que se asuman formas simples para las densidades.
 
-## Análisis discriminante lineal con $p=1$
+## Análisis discriminante lineal con $p=1${.small}
 
 Primero asumiremos que $p=1$, es decir, [sólo tenemos un predictor]{.bg2}. Deseamos obtener una estimación para $f_k(x)$ para utilizarlo en la ecuación
 
@@ -267,7 +267,7 @@ $$
 
 donde $\mu_k$ y $\sigma_{k}^{2}$ son la media y la varianza de la clase $k-$ésima. Por ahora, asumiremos que $\sigma_{1}^{2}=\dots=\sigma_{K}^{2}=\sigma^2$
 
-## Análisis discriminante lineal con $p=1$
+## Análisis discriminante lineal con $p=1${.small}
 
 Por lo anterior, se tendrá
 
@@ -295,6 +295,9 @@ y a la clase 2 en caso contrario. En este caso, el [límite de decisión de Baye
 $$
 x=\dfrac{\mu_{1}^{2}-\mu_{2}^{2}}{2(\mu_1-\mu_2)}=\dfrac{\mu_1+\mu_2}{2}
 $$
+
+
+## Análisis discriminante lineal con $p=1$
 
 Llamamos a este, el punto (o área) en donde [la clasificación es ambigua]{.bg2}.
 
@@ -324,7 +327,7 @@ donde [$n$ es el número total de observaciones]{.bg2} en el conjunto de entrena
 ## Análisis discriminante lineal con $p>1$
 
 <center>
-![](./images/mod3/4_5.png)
+![](./images/mod3/4_5.png){width=700}
 </center>
 
 - [Densidad:]{.bg3} $f(x) = \frac{1}{(2\pi)^{p/2} |\Sigma|^{1/2}} e^{-\frac{1}{2} (x - \mu)^T \Sigma^{-1} (x - \mu)}$
@@ -352,7 +355,7 @@ Cuando $f_k(x)$ son [distribuciones Gaussianas]{.bg1}, con la misma matriz de co
 
 - Muchas otras formas se pueden obtener al proponer modelos de densidad para $f_k(x)$.
 
-## Análisis discriminante cuadrático
+## Análisis discriminante cuadrático{.small}
 
 <center>
 ![](./images/mod3/4_9.png)
