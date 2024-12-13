@@ -10,34 +10,34 @@ El curso combina teoría y práctica, incentivando la aplicación de los concept
 
 ## Módulos
 
-### Conceptos básicos
+### [Conceptos básicos](https://raw.githack.com/ealvnrz/seminario_mii/main/mii_mod1.html#/)
 1. Introducción a la ciencia de datos
 2. Aprendizaje estadístico
 3. Evaluación de modelos
 
-### Modelos de regresión
+### [Modelos de regresión](https://raw.githack.com/ealvnrz/seminario_mii/main/mii_mod2.html#/title-slide)
 1. Regresión lineal simple
 2. Regresión lineal múltiple
 3. Regresión polinomial
 
-### Técnicas de clasificación
+### [Técnicas de clasificación](https://raw.githack.com/ealvnrz/seminario_mii/main/mii_mod3.html)
 1. Regresión logística
 2. Análisis discriminante
 3. *Naive Bayes*
 
-### Métodos de remuestreo
+### [Métodos de remuestreo](https://raw.githack.com/ealvnrz/seminario_mii/main/mii_mod4.html)
 1. Validación cruzada
 2. Bootstrap
 
-### Métodos no supervisados
+### [Métodos no supervisados](https://raw.githack.com/ealvnrz/seminario_mii/main/mii_mod5.html)
 1. Análisis de componentes principales
 2. Métodos de *clustering*
 
-### Support Vector Machines
+### [Support Vector Machines](https://raw.githack.com/ealvnrz/seminario_mii/main/mii_mod6.html)
 1. Clasificador de máximo margen
 2. Clasificador de vectores de soporte
 
-### Deep Learning
+### [Deep Learning](https://raw.githack.com/ealvnrz/seminario_mii/main/mii_mod7.html)
 1. Redes neuronales multicapa
 2. Redes neuronales convolucionales
 3. Redes neuronales recurrentes
