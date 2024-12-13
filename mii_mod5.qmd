@@ -106,10 +106,226 @@ $z_{11},\ldots,z_{n1}$.
 - La segunda componente principal, es la combinación lineal de $X_1,\ldots,X_p$ que tiene máxima varianza entre las combinaciones lineales que [no están correlacionadas]{.bg4} con $Z_1$.
 - Los valores de la segunda componente principal toman la forma
 $$z_{i2} = \phi_{12}x_{i1} + \cdots + \phi_{p2}x_{ip}$$
-  + El vactor de *loading* asociado es $\phi_2 = (\phi_{12},\ldots,\phi_{p2})^\top$.
+  + El vector de *loading* asociado es $\phi_2 = (\phi_{12},\ldots,\phi_{p2})^\top$.
+- Que $Z_2$ y $Z_1$ no estén correlacionados, es equivalente a $\phi_2\perp\phi_1$.
+- Hay, a lo más, $\min(n-1,p)$ componentes principales.
 
+## Análsis de Componentes Principales (PCA)
+### Otra interpretación
 
+![](./images/mod5/fig2.png)
+
+## Análsis de Componentes Principales (PCA)
+### Otra interpretación
+
+- PCA encuentra el hiperplano más "cercano" a las observaciones.
+- El primer vector *loading* define la línea en un espacio $p$-dimensional más cercana a las $n$ observaciones.
+  + usando la distancia euclidiana cuadrada promedio.
+- Los primeros dos vectores *loading* definen el plano en $p$-dimensiones más cercano a las $n$ observaciones...
+
+## Análsis de Componentes Principales (PCA)
+### Escalar variables
+
+- Si las variables están en diferentes unidades de medida, escalarlas para tener desviación estándar igual a 1 es recomendable.
+- Si las variables están en las mismas unidades, se puede decidir escalar o no.
+
+![](./images/mod5/fig3.png){fig-align="center"}
+
+## Análsis de Componentes Principales (PCA)
+### Proporción de la Varianza Explicada (PVE)
+
+- Para entender la "fuerza" de cada componente, nos interesa conocer la [proporción de la varianza explicada]{.bg4} por cada uno.
+- La [varianza total]{.alert} de un conjunto de datos (con media $0$) es:
+$$\sum\limits_{j=1}^pVar(X_j) = \sum\limits_{j=1}^p\frac{1}{n}\sum\limits_{i=1}^nx_{ij}^2.$$
+- La varianza explicada por el $m$-ésimo componente principal es:
+$$Var(Z_m) = \frac{1}{n}\sum\limits_{i=1}^nz_{im}^2.$$
+
+## Análsis de Componentes Principales (PCA)
+### Proporción de la Varianza Explicada (PVE)
+
+- Se puede mostrar que:
+$$\sum\limits_{j=1}^pVar(X_j) = \sum\limits_{m=1}^{\min\{n-1,p\}}Var(Z_m)$$
+
+- El [PVE]{.bg3} del $m$-ésimo componente principal está dado por la cantidad (entre $0$ y $1$)
+$$PVE_{(m)} = \dfrac{\sum\limits_{i=1}^nz_{im}^2}{\sum\limits_{j=1}^p\sum\limits_{i=1}^nx_{ij}^2}$$
+
+## Análsis de Componentes Principales (PCA)
+### Proporción de la Varianza Explicada (PVE)
+
+- Los PVE suman 1 $\left(\sum\limits_{m}PVE_{(m)} = 1\right)$.
+
+![](./images/mod5/fig4.png){fig-align="center"}
+
+## Análsis de Componentes Principales (PCA)
+### ¿Cuántos componentes principales usar?
+
+- No hay una respuesta simple a esta pregunta.
+  + No se puede usar *cross-validation*, a menos que sea en un contexto supervisado.
+- En la práctica, se busca el "codo".
 
 # Métodos de Clustering{background-color="#40666e"}
 
 ## Métodos de Clustering
+### Definición
+
+- [Clustering]{.bg4} es un amplio conjunto de técnicas para encontrar [subgrupos]{.alert} o [clusters (agrupaciones)]{.alert} en conjuntos de datos.
+- Se busca una partición de los datos de forma que las observaciones en cada grupo sean similares entre ellas.
+  + ¿Qué significa que observaciones sean [similares]{.alert} o [diferentes]{.alert}?
+  + Generalmente requiere cierto conocimiento del dominio específico dedos o más observac los datos.
+
+## Métodos de Clustering
+### PCA vs Clustering
+
+- [PCA]{.bg4} busca una representación de baja dimensión de las observaciones que explique una gran parte de la varianza.
+- [Clustering]{.bg3} busca subgrupos homogéneos en las observaciones.
+
+## Métodos de Clustering
+### Ejemplo: Segmentación de mercado
+
+- Supongamos que tenemos acceso a una gran cantidad de medidas de un gran número de personas.
+  + Ej: ingreso medio del hogar, ocupación, distancia al área urbana más cercana, etc.
+- Se busca segmentar el mercado identificando subgrupos de personas más receptivas.
+  + A un tipo de publicidad o afinidad a comprar cierto producto.
+- Esto consiste en hacer un clustering de las personas en el conjunto de datos.
+
+## Métodos de Clustering
+### Dos tipos de clustering
+
+- [$K$-means:]{.bg4} Se busca una partición de las observaciones en un número previamente definido de clusters.
+- [Clustering jerárquico:]{.bg3} No se sabe a priori cuántos clusters se quieren.
+  + Se obtiene una estructura tipo árbol que permite visualizar los clusters obtenidos para un número de clusters entre $1$ y $n$.
+
+## Métodos de Clustering
+### $K$-means
+
+![](./images/mod5/fig5.png){fig-align="center"}
+
+## Métodos de Clustering
+### $K$-means
+
+- Se busca [particionar]{.alert} el conjunto de observaciones $\{1,\ldots,n\}$ en 
+$K$ conjuntos $C_1,\ldots,C_k$.
+  + La unión forma todas las observaciones.
+  + Los conjuntos no se traslapan.
+- Si la $i$-ésima observación está en el $k$-ésimo cluster se dice que $i∈ C_k$.
+- Se busca que la [variación inter-cluster]{.alert} sea tan pequeña como sea posible.
+
+## Métodos de Clustering
+### $K$-means
+
+- La [variación inter-cluster]{.alert} del cluster $C_k$ es una medida $WCV(C_k)$ de la cantidad que las observaciones dentro del cluster difieren entre sí.
+  + Se busca resolver 
+  $$\min\limits_{C_1,\ldots,C_K}\left\{\sum\limits_{k=1}^KWCV(C_k)\right\}$$
+- Típicamente se usa la distancia Euclideana:
+
+$$WCV(C_k) = \frac{1}{|C_k|}\sum\limits_{i,i'\in C_k}\sum\limits_{j=1}^p(x_{ij}-x_{i'j})^2$$
+
+## Métodos de Clustering
+### $K$-means: Algoritmo
+
+1. Asignar aleatoriamente un número del $1$ a $K$ a cada observación.
+  + Es una agrupación inicial.
+2. Iterar hasta que no haya cambios de asignación:
+    a. Calcular el [centroide]{.alert} de cada cluster. Vector promedio de los datos del cluster.
+    b. Asignar a cada observación el cluster cuyo centroide sea el más [cercano]{.alert} (euclideano).
+
+## Métodos de Clustering
+### $K$-means: Algoritmo
+
+![](./images/mod5/fig6.png){fig-align="center"}
+
+## Métodos de Clustering
+### $K$-means: Algoritmo
+
+- El algoritmo hace que el valor objetivo decrezca en cada iteración.
+  $$\frac{1}{C_k}\sum\limits_{i,i'∈ C_k}\|x_i-x_{i'}\|^2_2 = 2\sum\limits_{i∈ C_k}\|x_i-\bar{x}_k\|^2_2$$
+
+- No se garantiza obtener el óptimo global.
+  + Problema no convexo, óptimo local.
+
+## Métodos de Clustering
+### $K$-means: Algoritmo: Punto de partida
+
+![](./images/mod5/fig7.png){fig-align="center"}
+
+
+## Métodos de Clustering
+### Cluster jerárquico
+
+- $K$-means requiere que el número de clusters sea previamente definido.
+
+- Cluster jerárquico no requiere saber a priori el número de clusters.
+  + El tipo más común de cluster jerárquico es el *`bottom-up`* o `aglomerativo`.
+
+## Métodos de Clustering
+### Cluster jerárquico
+
+![](./images/mod5/fig8.png){fig-align="center"}
+
+## Métodos de Clustering
+### Cluster jerárquico
+
+![](./images/mod5/fig9.png){fig-align="center"}
+
+## Métodos de Clustering
+### Cluster jerárquico
+
+![](./images/mod5/fig10.png){fig-align="center"}
+
+## Métodos de Clustering
+### Cluster jerárquico
+
+![](./images/mod5/fig11.png){fig-align="center"}
+
+## Métodos de Clustering
+### Cluster jerárquico
+
+![](./images/mod5/fig12.png){fig-align="center"}
+
+## Métodos de Clustering
+### Cluster jerárquico
+
+- Se comienza con cada dato en su propio cluster.
+- Se identifican los dos clusters más [cercanos]{.alert} y se unen.
+- Se repite hasta que todos los puntos estén en un único cluster.
+
+## Métodos de Clustering
+### Cluster jerárquico
+
+![](./images/mod5/fig13.png){fig-align="center"}
+
+## Métodos de Clustering
+### Cluster jerárquico: Ejemplo
+
+![](./images/mod5/fig14.png){fig-align="center"}
+
+## Métodos de Clustering
+### Cluster jerárquico: Ejemplo
+
+![](./images/mod5/fig15.png){fig-align="center"}
+
+## Métodos de Clustering
+### Cluster jerárquico: Tipos de unión
+
+- `Complete:` Disimilitud máxima inter cluster.
+- `Single:` Disimilitud mínima inter cluster.
+- `Average:` Disimilitud promedio inter cluster.
+- `Centroid:` Disimilitud de centroides inter cluster.
+
+## Métodos de Clustering
+### Cluster jerárquico: Tipos de unión
+
+- Usualmente, se calcula la disimilitud en función de la distancia Euclideana.
+- Otra opción es la [distancia basada en correlación]{.bg4}
+  + Correlación en los perfiles de observación.
+
+![](./images/mod5/fig16.png){fig-align="center"}
+
+## Métodos de Clustering
+### En la práctica
+
+- Las escalas importan.
+  + Estandarizar (promedio $0$, varianza $1$).
+- ¿Cuántos clusters?
+  + No hay una respuesta consensuada.
+- ¿Qué características usar formar los clusters?
