@@ -51,13 +51,13 @@ Un hiperplano en $p$ dimensiones es un [subespacio afín plano de dimensión $p 
 ## ¿Qué es un Hiperplano?
 
 <center>
-![](images/mod6/hiperplano.jpg)
+![](images/mod6/hiperplano.jpg){width=550}
 </center>
 
 ## ¿Qué es un Hiperplano?{.small}
 
 <center>
-![](images/mod6/hiperplano2.png)
+![](images/mod6/hiperplano2.png){width=800}
 </center>
 
 - Si $f(X) = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p$, entonces $f(X) > 0$ para los puntos en un lado del hiperplano, y $f(X) < 0$ para los puntos en el otro.
@@ -106,7 +106,7 @@ Entre todos los [hiperplanos separadores]{.bg3}, se busca encontrar aquel que [m
 :::
 ::::
 
-## Datos ruidosos/pertubados 
+## Datos ruidosos/pertubados {.small}
 
 <center>
 ![](images/mod6/noisy.png)
@@ -132,7 +132,7 @@ Entre todos los [hiperplanos separadores]{.bg3}, se busca encontrar aquel que [m
 ## $C$ es un parámetro de regularización
 
 <center>
-![](images/mod6/c_param.png)
+![](images/mod6/c_param.png){width=650}
 </center>
 
 ## Una separación lineal puede fallar
@@ -259,7 +259,7 @@ $$
 :::{.column}
 
 <center>
-![](images/mod6/svm_lr.png)
+![](images/mod6/svm_lr.png){width=400}
 </center>
 :::
 
@@ -268,7 +268,7 @@ $$
 <br>
 Esto tiene la forma de [pérdida más penalización]{.fg1}.
 
-- La [pérdida]{.bg4} se conoce como [pérdida de bisagra]{.bg3}** (*hinge loss*).  
+- La [pérdida]{.bg4} se conoce como [pérdida de bisagra]{.bg3} (*hinge loss*).  
 - Es muy similar a la "pérdida" en la regresión logística (log-verosimilitud negativa).
 
 :::
