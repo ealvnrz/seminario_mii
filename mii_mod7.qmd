@@ -134,6 +134,8 @@ $$
 - Problema ampliamente estudiado: las mejores tasas reportadas son $< 0.5\%$.
 - [La tasa de error humana se reporta alrededor de $0.2\%$, o $20$ de las $10.000$ imágenes de prueba.]{.fg1}
 
+# Redes Neuronales Convolucionales (CNN) {background-color="#40666e"}
+
 ## Redes Neuronales Convolucionales (CNN)
 
 <center>
@@ -145,3 +147,188 @@ $$
 - $50.000$ imágenes de entrenamiento, $10.000$ imágenes de prueba.
 - Cada imagen es un arreglo tridimensional o un [*mapa de características*]{.bg3}: una matriz de $32 \times 32 \times 3$ compuesta por números de 8 bits.  
 - La última dimensión representa los tres canales de color: [rojo, verde y azul]{.fg1}.
+
+## ¿Cómo funcionan las CNN?{.small}
+
+<center>
+![](images/mod7/cnn_2.jpg){width=500}
+</center>
+
+- La [Redes Neuronales Convolucionales]{.bg1} construye una imagen de manera [jerárquica]{.bg3}.
+- Los [bordes]{.bg2} y [formas]{.bg4} se reconocen y se combinan para formar estructuras más complejas, ensamblando finalmente la imagen objetivo.  
+- Esta construcción jerárquica se logra utilizando [capas de convolución]{.bg3} y [capas de *pooling*]{.bg4}.
+
+## Convolución{.small}
+
+[Imágen de entrada:]{.bg1} $\begin{bmatrix}
+a & b & c \\
+d & e & f \\
+g & h & i \\
+j & k & l
+\end{bmatrix}
+$
+
+[Filtro de Convolución:]{.bg2} $\begin{bmatrix}
+\alpha & \beta \\
+\gamma & \delta
+\end{bmatrix}
+$
+
+[Imágen Convolucionada:]{.bg3}  $\begin{bmatrix}
+a\alpha + b\beta + d\gamma + e\delta & b\alpha + c\beta + e\gamma + f\delta \\
+d\alpha + e\beta + g\gamma + h\delta & e\alpha + f\beta + h\gamma + i\delta \\
+g\alpha + h\beta + j\gamma + k\delta & h\alpha + i\beta + k\gamma + l\delta
+\end{bmatrix}.
+$ 
+
+
+## Convolución{.small}
+
+- [El filtro es, en sí mismo, una imagen]{.bg4} y representa una pequeña forma, borde, etc.  
+- Lo [desplazamos sobre la imagen de entrada]{.bg1}, evaluando coincidencias.  
+- La puntuación se realiza mediante [productos punto]{.bg2}.
+- Si la [subimagen de la imagen de entrada]{.bg3} es similar al filtro, la puntuación será alta; de lo contrario, será baja.  
+- Los filtros se [*aprenden*]{.fg1} durante el entrenamiento.
+
+## Ejemplo de convolución{.small}
+
+
+::::{.columns}
+:::{.column}
+<center>
+![](images/mod7/cnn_ex.png){width=500}
+</center>
+:::
+
+:::{.column}
+- La idea de la [convolución con un filtro]{.bg3} es encontrar [patrones comunes]{.fg1} que ocurren en diferentes partes de la imagen.  
+- Los dos filtros mostrados aquí resaltan [franjas verticales y horizontales]{.bg1}.  
+- El resultado de la convolución es un [nuevo mapa de características]{.bg2}
+.  
+- Dado que las imágenes tienen [tres canales de color]{.alert}, el filtro también los tiene: un filtro por canal, y los [productos punto]{.bg4} se suman.  
+- Los pesos en los filtros son [aprendidos]{.bg3} por la red.
+
+:::
+
+::::
+
+
+## Ejemplo de convolución
+
+<center>
+![](images/mod7/conv_cat.gif){width=500}
+</center>
+
+## Pooling
+### Max Pooling
+
+$$
+\begin{bmatrix}
+1 & 2 & 5 & 3 \\
+3 & 0 & 1 & 2 \\
+2 & 1 & 3 & 4 \\
+1 & 1 & 2 & 0
+\end{bmatrix}
+\rightarrow
+\begin{bmatrix}
+3 & 5 \\
+2 & 4
+\end{bmatrix}.
+$$
+
+- Cada bloque $2 \times 2$ no superpuesto se reemplaza por su [valor máximo]{.bg3}.  
+- Esto [agudiza]{.bg4} la identificación de características.  
+- Permite [invarianza de ubicación]{.bg1}.  
+- Reduce la dimensión en un [factor de 4]{.bg2}.
+
+## Pooling
+
+<center>
+![](images/mod7/pooling.gif){width=500}
+</center>
+
+## Arquitectura de una CNN
+
+<center>
+![](images/mod7/cnn_ar.png)
+</center>
+
+- Muchas capas de [convolución + pooling]{.bg4}.  
+- Los [filtros suelen ser pequeños]{.bg1}, por ejemplo, $3 \times 3$ en cada canal.  
+- Cada filtro [crea un nuevo canal]{.bg3} en la capa de convolución.  
+- A medida que el [pooling reduce el tamaño]{.fg1}, el número de [filtros/canales]{.bg2} generalmente aumenta.  
+- El número de capas puede ser [muy grande]{.bg3}. Por ejemplo, `ResNet-50`, entrenada en la base de datos de imágenes `ImageNet` con 1000 clases, tiene [50 capas]{.bg1}.
+
+# Redes Neuronales Recurrentes (RNN) {background-color="#40666e"}
+
+## Los datos como secuencias {.small}
+
+- Los documentos son [secuencias]{.bg1} de palabras, y sus [posiciones relativas tienen significado]{.bg3}.  
+- [Series temporales]{.bg4}, como datos climáticos o índices financieros.
+
+Las [RNNs (Redes Neuronales Recurrentes)]{.bg3} construyen modelos que consideran la [naturaleza secuencial]{.bg2} de los datos y construyen una [memoria del pasado]{.bg4}.  
+
+- La característica para cada observación es una [secuencia de vectores]{.fg1}:  
+$$ X = \{X_1, X_2, \dots, X_L\}. $$  
+
+- El objetivo $Y$ a menudo es una variable o una clase.  
+- Sin embargo, $Y$ también puede ser una [secuencia]{.bg1}, como el mismo documento en un [idioma diferente]{.bg2}.
+
+## Red Neuronal Recurrente Simple
+
+<center>
+![](images/mod7/rnn.png)
+</center>
+
+- La [capa oculta]{.bg3} es una secuencia de vectores $A_\ell$, que recibe como entrada $X_\ell$ así como $A_{\ell-1}$. $A_\ell$ produce una salida $O\ell$.  
+
+- Los mismos pesos $W$, $U$ y $B$ se [utilizan en cada paso de la secuencia]{.bg1} (de ahí el término *recurrente*).  
+- La secuencia $A_\ell$ representa un [modelo en evolución]{.bg4} para la respuesta, que se [actualiza a medida que cada elemento $X_\ell$ es procesado]{.bg2}.
+
+## Elementos importantes al trabajar con DL.
+
+- Las redes neuronales intentan [minimizar una función objetivo que es no-convexa]{.bg1}
+
+- La mayoría de las aplicaciones y frameworks de trabajo utilizan [Descenso del gradiente](https://en.wikipedia.org/wiki/Gradient_descent) (*que de por sí es lento*)
+
+- Es recomendable utilizar un [early stopping (o parada temprana)]{.bg3} para que el modelo no sobreajuste.
+
+- En vez de la red aprenda de [todos los datos disponibles al mismo tiempo]{.fg1}, es recomendable usar pequeños [minibatch]{.bg4} de datos.
+
+- Por ejemplo, si tengo $60.000$ observaciones, podemos ir calculando en grupos de 128 observaciones, para un total de $60.000/128 \approx 469$ [*épocas* (epochs)]{.bg2} de cómputo.
+
+## ¿Cómo evitamos que la red sobreajuste?
+
+### Dropout learning
+
+<center>
+![](images/mod7/dropout.png)
+</center>
+
+::: box3
+El método de [*dropout learning*]{.bg1}, [elimina conexiones entre neuronas]{.fg1} de manera aleatoria con una probabilidad dada, y [reescala los pesos de las conexiones mantenidas]{.bg2}.
+:::
+
+## ¿Cómo evitamos que la red sobreajuste?
+### Data Augmentation (aumento de datos)
+
+<center>
+![](images/mod7/aug.jpg){width=1000}
+</center>
+
+- El [aumento de datos (*data augmentation*)]{.bg3} aplica [transformaciones naturales a cada imagen de entrenamiento]{.bg4}, creando una [nube de imágenes]{.bg1} alrededor de cada imagen de entrenamiento original.  
+- La etiqueta se deja [sin cambios]{.fg1} (sigue siendo, por ejemplo, un tigre).  
+
+## Software
+### Tensorflow
+
+<center>
+![](images/mod7/tensorflow.png)
+</center>
+
+## Software
+### Pytorch
+
+<center>
+![](images/mod7/pytorch.png)
+</center>
