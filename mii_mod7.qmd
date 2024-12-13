@@ -274,10 +274,10 @@ $$ X = \{X_1, X_2, \dots, X_L\}. $$
 - El objetivo $Y$ a menudo es una variable o una clase.  
 - Sin embargo, $Y$ también puede ser una [secuencia]{.bg1}, como el mismo documento en un [idioma diferente]{.bg2}.
 
-## Red Neuronal Recurrente Simple
+## Red Neuronal Recurrente Simple{.small}
 
 <center>
-![](images/mod7/rnn.png)
+![](images/mod7/rnn.png){width=600}
 </center>
 
 - La [capa oculta]{.bg3} es una secuencia de vectores $A_\ell$, que recibe como entrada $X_\ell$ así como $A_{\ell-1}$. $A_\ell$ produce una salida $O\ell$.  
